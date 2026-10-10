@@ -1120,32 +1120,36 @@ export const LearnPage: React.FC = () => {
 
       {/* INTERACTIVE CHAPTER READER MODAL */}
       {activeChapter && (
-        <div className="fixed inset-0 z-50 bg-black/55 backdrop-blur-xs flex items-center justify-center p-3 sm:p-5 overflow-y-auto">
+        <div
+          className="fixed inset-0 z-50 bg-black/60 backdrop-blur-xs flex items-center justify-center p-3 sm:p-4 overflow-y-auto"
+          onClick={() => setActiveChapter(null)}
+        >
           <div
             role="dialog"
             aria-modal="true"
             aria-label="Chapter Reader"
-            className="bg-white rounded-2xl max-w-2xl w-full p-5 sm:p-7 space-y-5 shadow-2xl border border-border animate-scaleIn max-h-[90vh] overflow-y-auto"
+            onClick={(e) => e.stopPropagation()}
+            className="bg-white rounded-2xl max-w-[390px] w-full p-4 sm:p-5 space-y-4 shadow-2xl border border-border animate-scaleIn max-h-[85vh] overflow-y-auto scrollbar-thin"
           >
             {/* Reader Header */}
-            <div className="flex items-start justify-between gap-3 border-b border-border pb-3">
-              <div className="space-y-1">
-                <div className="flex items-center gap-2">
-                  <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded bg-primary-100 text-primary-800">
+            <div className="flex items-start justify-between gap-2.5 border-b border-border pb-3">
+              <div className="space-y-1 min-w-0 flex-1">
+                <div className="flex items-center gap-2 flex-wrap">
+                  <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded bg-primary-100 text-primary-800 truncate max-w-[220px]">
                     {activeChapter.module.title}
                   </span>
-                  <span className="text-xs text-textMuted flex items-center gap-1">
+                  <span className="text-xs text-textMuted flex items-center gap-1 shrink-0">
                     <Clock size={12} /> {activeChapter.chapter.duration}
                   </span>
                 </div>
-                <h2 className="text-lg sm:text-xl font-bold text-textPrimary leading-snug">
+                <h2 className="text-base sm:text-lg font-bold text-textPrimary leading-snug">
                   {activeChapter.chapter.title}
                 </h2>
               </div>
               <button
                 type="button"
                 onClick={() => setActiveChapter(null)}
-                className="p-1.5 rounded-lg text-textMuted hover:text-textPrimary hover:bg-slate-100 transition-colors"
+                className="p-1.5 rounded-lg text-textMuted hover:text-textPrimary hover:bg-slate-100 transition-colors shrink-0"
                 aria-label="Close chapter reader"
               >
                 <X size={18} />
@@ -1171,7 +1175,7 @@ export const LearnPage: React.FC = () => {
 
             {/* Concrete Rupee Example */}
             {activeChapter.chapter.rupeeExample && (
-              <div className="bg-amber-50/70 border border-amber-200 rounded-xl p-4 space-y-1.5">
+              <div className="bg-amber-50/70 border border-amber-200 rounded-xl p-3.5 space-y-1.5">
                 <span className="text-[11px] font-bold text-amber-900 flex items-center gap-1">
                   ₹ {activeChapter.chapter.rupeeExample.title}
                 </span>
@@ -1185,7 +1189,7 @@ export const LearnPage: React.FC = () => {
             )}
 
             {/* Key Takeaways */}
-            <div className="bg-slate-50 border border-slate-200 rounded-xl p-4 space-y-2">
+            <div className="bg-slate-50 border border-slate-200 rounded-xl p-3.5 space-y-2">
               <span className="text-xs font-bold uppercase tracking-wider text-textPrimary flex items-center gap-1.5">
                 <CheckCircle2 size={14} className="text-emerald-600" />
                 Key Takeaways
@@ -1198,33 +1202,32 @@ export const LearnPage: React.FC = () => {
             </div>
 
             {/* Reader Footer Actions */}
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pt-3 border-t border-border">
+            <div className="flex flex-col gap-2 pt-3 border-t border-border">
+              <Button
+                type="button"
+                size="sm"
+                variant="primary"
+                className="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs py-2.5 justify-center"
+                onClick={handleNextChapter}
+              >
+                <Check size={14} />
+                <span>
+                  {activeChapter.chapterIndex < activeChapter.module.chapters.length - 1
+                    ? 'Mark Complete & Next Chapter'
+                    : 'Mark Complete & Take Quiz'}
+                </span>
+                <ArrowRight size={14} />
+              </Button>
+
               <Button
                 type="button"
                 variant="outline"
                 size="sm"
+                className="w-full text-xs"
                 onClick={() => setActiveChapter(null)}
               >
                 Close
               </Button>
-
-              <div className="flex items-center gap-2">
-                <Button
-                  type="button"
-                  size="sm"
-                  variant="primary"
-                  className="bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs"
-                  onClick={handleNextChapter}
-                >
-                  <Check size={14} />
-                  <span>
-                    {activeChapter.chapterIndex < activeChapter.module.chapters.length - 1
-                      ? 'Mark Complete & Next Chapter'
-                      : 'Mark Complete & Take Quiz'}
-                  </span>
-                  <ArrowRight size={14} />
-                </Button>
-              </div>
             </div>
           </div>
         </div>
@@ -1232,12 +1235,16 @@ export const LearnPage: React.FC = () => {
 
       {/* INTERACTIVE QUIZ MODAL */}
       {activeQuiz && (
-        <div className="fixed inset-0 z-50 bg-black/55 backdrop-blur-xs flex items-center justify-center p-3 sm:p-5 overflow-y-auto">
+        <div
+          className="fixed inset-0 z-50 bg-black/60 backdrop-blur-xs flex items-center justify-center p-3 sm:p-4 overflow-y-auto"
+          onClick={() => setActiveQuiz(null)}
+        >
           <div
             role="dialog"
             aria-modal="true"
             aria-label="Module Quiz"
-            className="bg-white rounded-2xl max-w-xl w-full p-5 sm:p-7 space-y-5 shadow-2xl border border-border animate-scaleIn"
+            onClick={(e) => e.stopPropagation()}
+            className="bg-white rounded-2xl max-w-[390px] w-full p-4 sm:p-5 space-y-4 shadow-2xl border border-border animate-scaleIn max-h-[85vh] overflow-y-auto scrollbar-thin"
           >
             {!quizFinished ? (
               <>
@@ -1427,8 +1434,14 @@ export const LearnPage: React.FC = () => {
 
       {/* Ask Question Modal */}
       {showAskModal && (
-        <div className="fixed inset-0 z-50 bg-black/50 backdrop-blur-xs flex items-center justify-center p-4">
-          <div className="bg-white rounded-2xl max-w-lg w-full p-6 space-y-4 shadow-xl border border-border animate-scaleIn">
+        <div
+          className="fixed inset-0 z-50 bg-black/60 backdrop-blur-xs flex items-center justify-center p-3 sm:p-4 overflow-y-auto"
+          onClick={() => setShowAskModal(false)}
+        >
+          <div
+            onClick={(e) => e.stopPropagation()}
+            className="bg-white rounded-2xl max-w-[390px] w-full p-5 space-y-4 shadow-xl border border-border animate-scaleIn"
+          >
             <h2 className="text-lg font-bold text-textPrimary">Ask a Question (Simulated)</h2>
             <p className="text-xs text-textSecondary">
               Your question will be posted anonymously to SEBI-registered mentors and verified practitioners.
