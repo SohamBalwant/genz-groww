@@ -3,7 +3,6 @@ import { useSearchParams } from 'react-router-dom';
 import { dataService } from '../services/dataService';
 import { PostCard } from '../components/community/PostCard';
 import { QAThread } from '../components/community/QAThread';
-import { GuidelinesCard } from '../components/community/GuidelinesCard';
 import { DemoBadge } from '../components/ui/DemoBadge';
 import { Button } from '../components/ui/Button';
 import {
@@ -850,10 +849,7 @@ export const LearnPage: React.FC = () => {
             </div>
           )}
 
-          {/* Clean Guidelines Card Underneath (Never squished into 50% columns!) */}
-          <div className="pt-4">
-            <GuidelinesCard />
-          </div>
+
         </div>
       )}
 
