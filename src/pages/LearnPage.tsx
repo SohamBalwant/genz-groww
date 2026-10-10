@@ -508,44 +508,40 @@ export const LearnPage: React.FC = () => {
         <div className="space-y-6 animate-fadeIn">
           {/* Progress Tracking Dashboard Card */}
           <div className="bg-gradient-to-br from-slate-900 via-slate-850 to-slate-900 text-white rounded-2xl p-5 md:p-6 shadow-md border border-slate-800 space-y-4">
-            <div className="flex items-center justify-between gap-3 border-b border-slate-800 pb-4">
+            {/* Top Row: Rank/Tier Badge & Reset Button */}
+            <div className="flex items-start justify-between gap-3 border-b border-slate-800/80 pb-3.5">
               <div className="flex items-center gap-3 min-w-0">
-                <div className="w-12 h-12 rounded-2xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center border border-emerald-500/30 shrink-0">
-                  <tierBadge.icon size={24} />
+                <div className="w-11 h-11 rounded-2xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center border border-emerald-500/30 shrink-0">
+                  <tierBadge.icon size={22} />
                 </div>
                 <div className="min-w-0">
-                  <div className="flex items-center gap-1.5 whitespace-nowrap">
-                    <span className="text-[11px] font-bold uppercase tracking-wider text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded-md border border-emerald-500/20 whitespace-nowrap">
-                      {tierBadge.tier}
-                    </span>
-                    <span className="text-[11px] text-slate-400 font-medium whitespace-nowrap">
-                      • Real-Time Progress
-                    </span>
-                  </div>
-                  <h2 className="text-base sm:text-lg font-bold text-white tracking-tight truncate mt-1">
+                  <span className="text-[10px] font-bold uppercase tracking-wider text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded-md border border-emerald-500/20 inline-block">
+                    {tierBadge.tier}
+                  </span>
+                  <h2 className="text-base sm:text-lg font-bold text-white tracking-tight mt-0.5 truncate">
                     {tierBadge.label}
                   </h2>
                 </div>
               </div>
 
-              <div className="flex items-center gap-2.5 shrink-0">
-                <div className="text-right">
-                  <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400 block whitespace-nowrap">
-                    Curriculum Mastered
-                  </span>
-                  <span className="text-xl font-extrabold text-emerald-400 tabular-nums">
-                    {overallProgressPct}%
-                  </span>
-                </div>
-                <button
-                  type="button"
-                  onClick={handleResetProgress}
-                  title="Reset learning progress"
-                  className="w-8 h-8 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-white transition-colors flex items-center justify-center cursor-pointer border border-slate-700/60 shrink-0"
-                >
-                  <RotateCcw size={14} />
-                </button>
-              </div>
+              <button
+                type="button"
+                onClick={handleResetProgress}
+                title="Reset learning progress"
+                className="w-8 h-8 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-white transition-colors flex items-center justify-center cursor-pointer border border-slate-700/60 shrink-0"
+              >
+                <RotateCcw size={14} />
+              </button>
+            </div>
+
+            {/* Second Row: Curriculum Mastered Metric & Percentage */}
+            <div className="flex items-end justify-between pt-0.5">
+              <span className="text-xs font-bold uppercase tracking-wider text-slate-400">
+                Curriculum Mastered
+              </span>
+              <span className="text-xl font-extrabold text-emerald-400 tabular-nums">
+                {overallProgressPct}%
+              </span>
             </div>
 
             {/* Progress Bar & Sub-metrics */}
