@@ -1,0 +1,105 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --color-primary: #00B386;
+    --color-primary-dark: #009970;
+    --color-gain: #00B386;
+    --color-loss: #EB5B3C;
+    --color-caution: #F5A623;
+    --color-info: #3B82F6;
+    --color-text-primary: #121316;
+    --color-text-secondary: #44475B;
+    --color-text-muted: #8B8FA8;
+    --color-bg-default: #FFFFFF;
+    --color-bg-surface: #F8F8FA;
+    --color-bg-muted: #F0F0F4;
+    --color-border: #E8E8EB;
+  }
+
+  * {
+    box-sizing: border-box;
+  }
+
+  html {
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    -webkit-text-size-adjust: 100%;
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-bgSurface text-textPrimary;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* Tabular numerals for all price/number displays */
+  .tabular-nums {
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* Focus styles */
+  :focus-visible {
+    @apply outline-2 outline-offset-2 outline-primary-500 rounded;
+  }
+
+  /* Reduced motion */
+  @media (prefers-reduced-motion: reduce) {
+    *, ::before, ::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}
+
+@layer components {
+  /* Card base */
+  .card {
+    @apply bg-bgDefault rounded-lg shadow-card border border-border;
+  }
+
+  /* Chip/badge */
+  .chip {
+    @apply inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-medium;
+  }
+
+  /* Touch target minimum */
+  .touch-target {
+    @apply min-h-touch min-w-touch flex items-center justify-center;
+  }
+
+  /* Price change colors */
+  .text-gain { color: var(--color-gain); }
+  .text-loss { color: var(--color-loss); }
+  .bg-gain-soft { background-color: #E6FBF6; }
+  .bg-loss-soft { background-color: #FEF0ED; }
+
+  /* Demo badge */
+  .demo-badge {
+    @apply chip bg-amber-50 text-amber-700 border border-amber-200;
+  }
+
+  /* Section label for interpretation */
+  .interpretation-label {
+    @apply chip bg-blue-50 text-blue-700 border border-blue-200;
+  }
+
+  /* Sticky bottom bar safe area */
+  .bottom-nav-safe {
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+
+  /* Scrollbar styling */
+  .scrollbar-thin::-webkit-scrollbar { height: 4px; width: 4px; }
+  .scrollbar-thin::-webkit-scrollbar-track { @apply bg-bgMuted rounded-full; }
+  .scrollbar-thin::-webkit-scrollbar-thumb { @apply bg-borderMd rounded-full; }
+}
+
+@layer utilities {
+  .text-balance { text-wrap: balance; }
+  .no-scrollbar::-webkit-scrollbar { display: none; }
+  .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+}
