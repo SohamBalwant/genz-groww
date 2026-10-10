@@ -33,15 +33,7 @@ export const PostCard: React.FC<{ post: Post }> = ({ post }) => {
         </div>
       </div>
 
-      {/* 2. Sponsored Label if present */}
-      {post.sponsored && (
-        <div className="p-2.5 bg-amber-50 rounded-xl border border-amber-200 text-xs text-amber-900 space-y-0.5">
-          <span className="font-bold uppercase tracking-wider text-[10px] text-amber-800 block">
-            Sponsored by {post.sponsored.sponsor}
-          </span>
-          <p className="text-[11px] text-amber-950 leading-snug">{post.sponsored.disclosure}</p>
-        </div>
-      )}
+
 
       {/* 3. Post Title & Body */}
       <h3 className="font-bold text-base sm:text-lg text-textPrimary leading-snug tracking-tight">
