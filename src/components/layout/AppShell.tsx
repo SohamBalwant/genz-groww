@@ -31,9 +31,9 @@ export const AppShell: React.FC = () => {
   }, [location.pathname]);
 
   return (
-    <div className="h-screen h-[100dvh] md:h-auto md:min-h-screen bg-bgSurface md:bg-slate-950 text-textPrimary flex flex-col items-center justify-center antialiased selection:bg-primary-500 selection:text-white p-0 md:py-6 lg:py-8 overflow-hidden md:overflow-x-hidden">
+    <div className="fixed inset-0 w-full h-full md:relative md:inset-auto md:w-auto md:h-auto md:min-h-screen bg-bgSurface md:bg-slate-950 text-textPrimary flex flex-col md:items-center md:justify-center antialiased selection:bg-primary-500 selection:text-white p-0 md:py-6 lg:py-8 overflow-hidden md:overflow-x-hidden">
       {/* ─── Main Container: Smartphone Frame on Desktop / Full Screen on Mobile ─── */}
-      <div className="w-full h-full md:h-auto flex-1 md:flex-initial flex items-center justify-center min-h-0">
+      <div className="w-full h-full md:h-auto flex-1 md:flex-initial flex flex-col md:items-center md:justify-center min-h-0">
         <div className="w-full h-full md:w-[420px] md:h-[890px] md:max-h-[92vh] md:rounded-[52px] md:bg-slate-950 md:p-3 md:shadow-[0_25px_60px_-15px_rgba(0,0,0,0.9),0_0_0_1px_rgba(255,255,255,0.1),0_0_50px_rgba(0,179,134,0.15)] md:ring-1 md:ring-white/15 relative flex flex-col min-h-0">
           {/* Simulated Physical Smartphone Buttons on Bezel (Desktop only) */}
           <div
