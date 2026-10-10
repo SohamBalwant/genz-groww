@@ -17,7 +17,7 @@ export const QAThread: React.FC<{ thread: Thread }> = ({ thread }) => {
   };
 
   return (
-    <Card padding="md" className="space-y-3.5 bg-white border-border shadow-2xs rounded-2xl">
+    <Card padding="md" className="space-y-3.5 bg-white border-border shadow-2xs rounded-2xl px-5 sm:px-6">
       {/* Question Header */}
       <div className="space-y-1.5 pb-2 border-b border-border/70">
         <div className="flex items-center justify-between gap-2">

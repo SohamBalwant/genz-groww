@@ -768,10 +768,10 @@ export const LearnPage: React.FC = () => {
                 onClick={handlePostPrev}
                 aria-label="Previous expert post"
                 title="Previous expert post"
-                className="absolute left-1.5 sm:left-2 top-1/2 -translate-y-1/2 z-30 w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-white/95 hover:bg-white text-slate-800 hover:text-primary-600 shadow-xl border border-slate-200/90 flex items-center justify-center transition-all hover:scale-110 active:scale-90 cursor-pointer backdrop-blur-md group"
+                className="absolute -left-1.5 sm:-left-2 top-1/2 -translate-y-1/2 z-30 w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-white/95 hover:bg-white text-slate-800 hover:text-primary-600 shadow-md border border-slate-200/90 flex items-center justify-center transition-all hover:scale-110 active:scale-90 cursor-pointer backdrop-blur-md group"
               >
                 <ChevronLeft
-                  size={20}
+                  size={14}
                   className="stroke-[2.5] -translate-x-0.5 group-hover:-translate-x-1 transition-transform"
                 />
               </button>
@@ -806,10 +806,10 @@ export const LearnPage: React.FC = () => {
                 onClick={handlePostNext}
                 aria-label="Next expert post"
                 title="Next expert post"
-                className="absolute right-1.5 sm:right-2 top-1/2 -translate-y-1/2 z-30 w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-white/95 hover:bg-white text-slate-800 hover:text-primary-600 shadow-xl border border-slate-200/90 flex items-center justify-center transition-all hover:scale-110 active:scale-90 cursor-pointer backdrop-blur-md group"
+                className="absolute -right-1.5 sm:-right-2 top-1/2 -translate-y-1/2 z-30 w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-white/95 hover:bg-white text-slate-800 hover:text-primary-600 shadow-md border border-slate-200/90 flex items-center justify-center transition-all hover:scale-110 active:scale-90 cursor-pointer backdrop-blur-md group"
               >
                 <ChevronRight
-                  size={20}
+                  size={14}
                   className="stroke-[2.5] translate-x-0.5 group-hover:translate-x-1 transition-transform"
                 />
               </button>
@@ -993,10 +993,10 @@ export const LearnPage: React.FC = () => {
                     onClick={handleQaPrev}
                     aria-label="Previous question"
                     title="Previous question"
-                    className="absolute left-1.5 sm:left-2 top-1/2 -translate-y-1/2 z-30 w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-white/95 hover:bg-white text-slate-800 hover:text-primary-600 shadow-xl border border-slate-200/90 flex items-center justify-center transition-all hover:scale-110 active:scale-90 cursor-pointer backdrop-blur-md group"
+                    className="absolute -left-1.5 sm:-left-2 top-1/2 -translate-y-1/2 z-30 w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-white/95 hover:bg-white text-slate-800 hover:text-primary-600 shadow-md border border-slate-200/90 flex items-center justify-center transition-all hover:scale-110 active:scale-90 cursor-pointer backdrop-blur-md group"
                   >
                     <ChevronLeft
-                      size={20}
+                      size={14}
                       className="stroke-[2.5] -translate-x-0.5 group-hover:-translate-x-1 transition-transform"
                     />
                   </button>
@@ -1031,10 +1031,10 @@ export const LearnPage: React.FC = () => {
                     onClick={handleQaNext}
                     aria-label="Next question"
                     title="Next question"
-                    className="absolute right-1.5 sm:right-2 top-1/2 -translate-y-1/2 z-30 w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-white/95 hover:bg-white text-slate-800 hover:text-primary-600 shadow-xl border border-slate-200/90 flex items-center justify-center transition-all hover:scale-110 active:scale-90 cursor-pointer backdrop-blur-md group"
+                    className="absolute -right-1.5 sm:-right-2 top-1/2 -translate-y-1/2 z-30 w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-white/95 hover:bg-white text-slate-800 hover:text-primary-600 shadow-md border border-slate-200/90 flex items-center justify-center transition-all hover:scale-110 active:scale-90 cursor-pointer backdrop-blur-md group"
                   >
                     <ChevronRight
-                      size={20}
+                      size={14}
                       className="stroke-[2.5] translate-x-0.5 group-hover:translate-x-1 transition-transform"
                     />
                   </button>

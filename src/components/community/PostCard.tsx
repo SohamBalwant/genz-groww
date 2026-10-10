@@ -5,7 +5,7 @@ import { DemoBadge } from '../ui/DemoBadge';
 import { ReportDialog } from './ReportDialog';
 import { useApp } from '../../state/AppContext';
 import { formatDate } from '../../lib/format';
-import { ShieldCheck, Flag, ExternalLink } from 'lucide-react';
+import { Flag, ExternalLink } from 'lucide-react';
 
 export const PostCard: React.FC<{ post: Post }> = ({ post }) => {
   const { state } = useApp();
@@ -13,7 +13,7 @@ export const PostCard: React.FC<{ post: Post }> = ({ post }) => {
   const isReported = state.reportedPosts.includes(post.id);
 
   return (
-    <Card padding="md" className="space-y-3.5 bg-white border-border shadow-2xs rounded-2xl">
+    <Card padding="md" className="space-y-3.5 bg-white border-border shadow-2xs rounded-2xl px-5 sm:px-6">
       {/* 1. Author Row & Metadata Header */}
       <div className="space-y-1.5 pb-2.5 border-b border-border/70">
         <div className="flex items-start justify-between gap-2">
@@ -22,13 +22,6 @@ export const PostCard: React.FC<{ post: Post }> = ({ post }) => {
               <span className="font-bold text-sm sm:text-base text-textPrimary leading-tight">
                 {post.author.name}
               </span>
-              <span
-                className="inline-flex items-center gap-1 text-[10px] font-semibold text-primary-700 bg-primary-50 px-2 py-0.5 rounded-full border border-primary-200"
-                title={post.author.verifiedBy}
-              >
-                <ShieldCheck size={11} aria-hidden="true" />
-                Verified
-              </span>
               <DemoBadge size="xs" />
             </div>
             <p className="text-[11px] text-textMuted leading-tight">{post.author.credentials}</p>
@@ -36,8 +29,6 @@ export const PostCard: React.FC<{ post: Post }> = ({ post }) => {
 
           <div className="flex items-center gap-1.5 text-xs text-textMuted shrink-0 pt-0.5">
             <span>{formatDate(post.publishedAt, { relative: true })}</span>
-            <span>·</span>
-            <span>{post.readTime}</span>
           </div>
         </div>
       </div>
