@@ -1,6 +1,9 @@
 # Groww for Gen Z — Interactive Prototype
 
-> **Independent Design Study & PM Assignment Prototype**  
+[![Live Demo](https://img.shields.io/badge/Live%20Demo-genz--groww.vercel.app-00D09C?style=for-the-badge&logo=vercel&logoColor=white)](https://genz-groww.vercel.app/)
+[![GitHub Repo](https://img.shields.io/badge/GitHub-SohamBalwant%2Fgenz--groww-181717?style=for-the-badge&logo=github&logoColor=white)](https://github.com/SohamBalwant/genz-groww)
+
+> **Live Application URL:** **[https://genz-groww.vercel.app/](https://genz-groww.vercel.app/)**  
 > **Topic:** Designing Groww for the Gen Z investor (ages 20–26)  
 > **Disclaimer:** This is an independent concept study and design proposal. It is **NOT** an official Groww product, service, or endorsement. All market figures, company data, and news items are illustrative demo fixtures (`isDemo: true`). All orders are simulated in browser storage; no actual trades, brokerage transactions, or payment transfers take place.
 

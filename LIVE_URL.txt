@@ -1,0 +1,11 @@
+Groww for Gen Z — Live Deployed Application
+
+Live Production URL:
+https://genz-groww.vercel.app/
+
+GitHub Repository:
+https://github.com/SohamBalwant/genz-groww
+
+Deployment Platform: Vercel (Hobby Tier - Free & Permanent)
+Last Updated: 2026-10-10
+Status: Active & Live

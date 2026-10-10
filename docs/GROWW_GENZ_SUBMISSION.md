@@ -182,7 +182,8 @@ npx tsc --noEmit
 # -> 0 errors
 ```
 
-### Live Tool Links (Select your preferred platform):
-- **GitHub Repository:** [github.com/SohamBalwant/genz-groww](https://github.com/SohamBalwant/genz-groww)
-- **Live Interactive Demo:** Hosted on Vercel / Netlify (Deployable via `npm run build` -> `dist/`)
-- **Container / Web Preview:** Runs locally on `http://localhost:5173` with instant hot-reload.
+### Live Tool Links (Artifact 4):
+- **Live Deployed Web App (Vercel):** [https://genz-groww.vercel.app/](https://genz-groww.vercel.app/)
+- **GitHub Repository:** [https://github.com/SohamBalwant/genz-groww](https://github.com/SohamBalwant/genz-groww)
+- **Local Dev Server:** Runs locally at `http://localhost:5173/` via `npm run dev`
+- **Automated QA & Evals:** 67 passed across 11 test suites via `npx vitest run`
