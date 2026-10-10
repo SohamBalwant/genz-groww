@@ -30,7 +30,7 @@ export const FundCard: React.FC<{ fund: MutualFund }> = ({ fund }) => {
       </div>
 
       {/* Category explainer */}
-      <p className="text-xs text-textSecondary line-clamp-1 italic bg-bgSurface/70 px-2.5 py-1.5 rounded-lg border border-border/70">
+      <p className="text-xs text-textSecondary italic bg-bgSurface/70 px-2.5 py-2 rounded-lg border border-border/70 leading-relaxed">
         {fund.categoryExplainer}
       </p>
 
