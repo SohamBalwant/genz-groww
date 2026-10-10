@@ -28,7 +28,7 @@ export const PrototypeBanner: React.FC = () => {
     <div
       role="region"
       aria-label="Prototype notice"
-      className="bg-amber-50 border-b border-amber-200 px-3.5 py-2 text-xs text-amber-900 transition-all"
+      className="bg-amber-50 border-b border-amber-200 px-3.5 py-2 text-xs text-amber-900 transition-all shrink-0"
     >
       <div className="max-w-7xl mx-auto flex items-center justify-between gap-3">
         <div className="flex items-center gap-2">

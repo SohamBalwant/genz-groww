@@ -23,6 +23,15 @@
     box-sizing: border-box;
   }
 
+  html,
+  body,
+  #root {
+    height: 100%;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+  }
+
   html {
     font-family: 'Inter', system-ui, -apple-system, sans-serif;
     -webkit-text-size-adjust: 100%;
@@ -33,6 +42,7 @@
     @apply bg-bgSurface text-textPrimary;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    -webkit-overflow-scrolling: touch;
   }
 
   /* Tabular numerals for all price/number displays */

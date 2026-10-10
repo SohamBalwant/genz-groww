@@ -13,7 +13,7 @@ export const TopBar: React.FC = () => {
     : 0;
 
   return (
-    <header className="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-border h-14 px-3.5 sm:px-4 flex items-center justify-between select-none">
+    <header className="shrink-0 sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-border h-14 px-3.5 sm:px-4 flex items-center justify-between select-none">
       <div className="w-full flex items-center justify-between gap-2">
         {/* Left: Brand Identity */}
         <RouterLink

@@ -31,10 +31,10 @@ export const AppShell: React.FC = () => {
   }, [location.pathname]);
 
   return (
-    <div className="min-h-screen bg-slate-950 text-textPrimary flex flex-col items-center justify-center antialiased selection:bg-primary-500 selection:text-white p-0 md:py-6 lg:py-8 overflow-x-hidden">
+    <div className="h-screen h-[100dvh] md:h-auto md:min-h-screen bg-bgSurface md:bg-slate-950 text-textPrimary flex flex-col items-center justify-center antialiased selection:bg-primary-500 selection:text-white p-0 md:py-6 lg:py-8 overflow-hidden md:overflow-x-hidden">
       {/* ─── Main Container: Smartphone Frame on Desktop / Full Screen on Mobile ─── */}
-      <div className="w-full flex-1 md:flex-initial flex items-center justify-center">
-        <div className="w-full md:w-[420px] md:h-[890px] md:max-h-[92vh] md:rounded-[52px] md:bg-slate-950 md:p-3 md:shadow-[0_25px_60px_-15px_rgba(0,0,0,0.9),0_0_0_1px_rgba(255,255,255,0.1),0_0_50px_rgba(0,179,134,0.15)] md:ring-1 md:ring-white/15 relative flex flex-col">
+      <div className="w-full h-full md:h-auto flex-1 md:flex-initial flex items-center justify-center min-h-0">
+        <div className="w-full h-full md:w-[420px] md:h-[890px] md:max-h-[92vh] md:rounded-[52px] md:bg-slate-950 md:p-3 md:shadow-[0_25px_60px_-15px_rgba(0,0,0,0.9),0_0_0_1px_rgba(255,255,255,0.1),0_0_50px_rgba(0,179,134,0.15)] md:ring-1 md:ring-white/15 relative flex flex-col min-h-0">
           {/* Simulated Physical Smartphone Buttons on Bezel (Desktop only) */}
           <div
             aria-hidden="true"
@@ -50,7 +50,7 @@ export const AppShell: React.FC = () => {
           />
 
           {/* ─── Inner Mobile Screen Viewport ─── */}
-          <div className="w-full h-full min-h-screen md:min-h-0 bg-bgSurface flex flex-col relative overflow-hidden [transform:translateZ(0)] md:rounded-[42px]">
+          <div className="w-full h-full bg-bgSurface flex flex-col relative overflow-hidden md:rounded-[42px] md:[transform:translateZ(0)] min-h-0">
             {/* 1. Mobile Status Bar (Visible on desktop phone chassis) */}
             <div
               aria-hidden="true"
@@ -89,7 +89,8 @@ export const AppShell: React.FC = () => {
             {/* 4. Native-feeling Scrollable Page Viewport */}
             <main
               id="app-scroll-viewport"
-              className="flex-1 overflow-y-auto overflow-x-hidden no-scrollbar p-3.5 sm:p-4 pb-6 transition-all relative scroll-smooth overscroll-contain"
+              className="flex-1 min-h-0 overflow-y-auto overflow-x-hidden overscroll-y-contain no-scrollbar p-3.5 sm:p-4 pb-6 transition-all relative scroll-smooth touch-pan-y"
+              style={{ WebkitOverflowScrolling: 'touch' }}
             >
               <Outlet />
             </main>
