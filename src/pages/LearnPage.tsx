@@ -604,22 +604,13 @@ export const LearnPage: React.FC = () => {
                       className="p-4 sm:p-5 flex items-start justify-between gap-3 cursor-pointer select-none bg-slate-50/50 hover:bg-slate-50 transition-colors border-b border-border/60"
                     >
                       <div className="space-y-1.5 flex-1">
-                        <div className="flex items-center gap-2 flex-wrap">
-                          <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-md bg-primary-100/80 text-primary-800 border border-primary-200/60">
-                            Module {modIdx + 1}
-                          </span>
-                          <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-md bg-slate-100 text-slate-700">
-                            {mod.level}
-                          </span>
-                          <span className="text-xs text-textMuted flex items-center gap-1">
-                            <Clock size={12} /> {mod.totalDuration}
-                          </span>
-                          {isModComplete && (
+                        {isModComplete && (
+                          <div className="flex items-center gap-2 flex-wrap">
                             <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-md bg-emerald-100 text-emerald-800 border border-emerald-200 flex items-center gap-1">
                               <CheckCircle2 size={12} /> Completed
                             </span>
-                          )}
-                        </div>
+                          </div>
+                        )}
 
                         <h3 className="text-sm sm:text-base font-semibold text-textPrimary leading-snug">
                           {mod.title}
@@ -676,7 +667,6 @@ export const LearnPage: React.FC = () => {
                                     <span className="text-[10px] font-bold text-textMuted uppercase tracking-wider">
                                       Chapter {modIdx + 1}.{chapIdx + 1}
                                     </span>
-                                    <span className="text-[11px] text-textMuted">• {chap.duration}</span>
                                     {isChapDone && (
                                       <span className="text-[10px] text-emerald-700 font-bold flex items-center gap-0.5">
                                         <Check size={12} className="stroke-[3]" /> Read
