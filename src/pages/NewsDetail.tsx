@@ -6,8 +6,8 @@ import { SourceBlock } from '../components/news/SourceBlock';
 import { DemoBadge } from '../components/ui/DemoBadge';
 import { Button } from '../components/ui/Button';
 import { Skeleton } from '../components/ui/Skeleton';
+import { ArrowLeft, ArrowRight, Building2 } from 'lucide-react';
 import { formatDateIST } from '../lib/format';
-import { ArrowLeft, AlertTriangle, ArrowRight, Building2 } from 'lucide-react';
 import type { NewsStory, Instrument } from '../types';
 
 export const NewsDetail: React.FC = () => {
@@ -145,24 +145,8 @@ export const NewsDetail: React.FC = () => {
         <FactVsAnalysis
           facts={[story.summary]}
           analysis={[story.whyItMatters]}
-          caveats={story.uncertainties}
         />
       </section>
-
-      {/* Key Uncertainties Callout */}
-      {story.uncertainties && story.uncertainties.length > 0 && (
-        <section className="bg-amber-50/60 border border-amber-200 rounded-xl p-4 md:p-5 space-y-2">
-          <div className="flex items-center gap-2 text-amber-800 font-bold text-sm">
-            <AlertTriangle size={18} className="text-amber-600 shrink-0" />
-            <span>Key Uncertainties & Caveats to Keep in Mind</span>
-          </div>
-          <ul className="space-y-1.5 pl-6 list-disc text-xs md:text-sm text-amber-950/90 leading-relaxed">
-            {story.uncertainties.map((item, idx) => (
-              <li key={idx}>{item}</li>
-            ))}
-          </ul>
-        </section>
-      )}
 
       {/* Could Be Relevant To: Linked Instruments */}
       {relatedInstruments.length > 0 && (

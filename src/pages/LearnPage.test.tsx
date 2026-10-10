@@ -207,8 +207,8 @@ describe('LearnPage Q&A Discussions', () => {
     // Wait for threads to load
     await screen.findByText(/What is the practical difference between a SIP and investing a lumpsum/i);
 
-    // Check question counter pill
-    expect(screen.getByText(/Question 1 of/i)).toBeInTheDocument();
+    // Check question counter pill (1 / total)
+    expect(screen.getByText('1')).toBeInTheDocument();
 
     // On Question 1: Left arrow should NOT exist
     expect(screen.queryByRole('button', { name: /previous question/i })).not.toBeInTheDocument();
@@ -221,7 +221,7 @@ describe('LearnPage Q&A Discussions', () => {
     fireEvent.click(nextBtn);
 
     // On Question 2: BOTH left and right arrows must exist
-    expect(screen.getByText(/Question 2 of/i)).toBeInTheDocument();
+    expect(screen.getByText('2')).toBeInTheDocument();
     expect(screen.getByRole('button', { name: /previous question/i })).toBeInTheDocument();
     expect(screen.getByRole('button', { name: /next question/i })).toBeInTheDocument();
 

@@ -3,11 +3,36 @@ import { useNavigate } from 'react-router-dom';
 import { useApp } from '../state/AppContext';
 import { dataService } from '../services/dataService';
 import { DemoBadge } from '../components/ui/DemoBadge';
-import { Button } from '../components/ui/Button';
 import { EmptyState } from '../components/ui/EmptyState';
-import { formatDateIST } from '../lib/format';
-import { CheckCheck, Zap, ArrowRight } from 'lucide-react';
+import { formatDate24h } from '../lib/format';
+import { CheckCheck, ArrowRight } from 'lucide-react';
 import type { Notification } from '../types';
+
+const getNotificationBadgeConfig = (type: string) => {
+  switch (type.toUpperCase()) {
+    case 'EVENT':
+      return {
+        classes: 'bg-purple-50 text-purple-700 border-purple-200',
+        dotColor: 'bg-purple-500',
+      };
+    case 'RESULT':
+      return {
+        classes: 'bg-amber-50 text-amber-800 border-amber-200',
+        dotColor: 'bg-amber-500',
+      };
+    case 'WATCHLIST':
+      return {
+        classes: 'bg-blue-50 text-blue-700 border-blue-200',
+        dotColor: 'bg-blue-500',
+      };
+    case 'COMPANY':
+    default:
+      return {
+        classes: 'bg-teal-50 text-teal-700 border-teal-200',
+        dotColor: 'bg-teal-500',
+      };
+  }
+};
 
 export const NotificationsPage: React.FC = () => {
   const { state, dispatch } = useApp();
@@ -15,7 +40,6 @@ export const NotificationsPage: React.FC = () => {
 
   const [notifications, setNotifications] = useState<Notification[]>([]);
   const [activeFilter, setActiveFilter] = useState<'All' | 'event' | 'watchlist' | 'result'>('All');
-  const [toastMessage, setToastMessage] = useState<string | null>(null);
 
   useEffect(() => {
     let mounted = true;
@@ -56,19 +80,6 @@ export const NotificationsPage: React.FC = () => {
     dispatch({ type: 'MARK_ALL_NOTIFICATIONS_READ' });
   };
 
-  // Scenario Simulator Triggers
-  const handleSimulateScenario = (
-    title: string,
-    targetUrl: string,
-    _notifId?: string
-  ) => {
-    setToastMessage(`Simulated notification received: "${title}"`);
-    setTimeout(() => {
-      setToastMessage(null);
-      navigate(targetUrl);
-    }, 900);
-  };
-
   const filteredList = useMemo(() => {
     if (activeFilter === 'All') return notifications;
     return notifications.filter((n) => n.type.toLowerCase() === activeFilter.toLowerCase());
@@ -78,113 +89,33 @@ export const NotificationsPage: React.FC = () => {
 
   return (
     <div className="max-w-3xl mx-auto space-y-6 animate-fadeIn pb-16">
-      {/* Toast Alert for Simulation */}
-      {toastMessage && (
-        <div className="fixed top-18 right-4 z-50 bg-slate-900 text-white text-xs px-4 py-3 rounded-xl shadow-lg border border-slate-700 flex items-center gap-2 animate-bounce">
-          <Zap size={14} className="text-amber-400 fill-amber-400" />
-          <span>{toastMessage}</span>
-        </div>
-      )}
-
       {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-2 border-b border-border">
-        <div>
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-border">
+        <div className="space-y-0.5">
           <div className="flex items-center gap-2 mb-1">
             <span className="text-xs font-semibold text-primary-600 uppercase tracking-wider">
               Notification Centre
             </span>
             <DemoBadge size="xs" />
           </div>
-          <h1 className="text-2xl font-bold text-textPrimary tracking-tight">
+          <h1 className="text-xl sm:text-2xl font-bold text-textPrimary tracking-tight">
             Market Updates & Alerts
           </h1>
-          <p className="text-xs text-textSecondary mt-0.5">
+          <p className="text-xs text-textSecondary">
             Objective notifications without FOMO, urgency, or sensational headlines.
           </p>
         </div>
 
         {unreadCount > 0 && (
-          <Button
-            size="sm"
-            variant="outline"
+          <button
+            type="button"
             onClick={handleMarkAllRead}
-            className="text-xs flex items-center gap-1.5 self-start sm:self-auto"
+            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl border border-primary-200 bg-primary-50 hover:bg-primary-100 text-primary-700 text-xs font-bold transition-all whitespace-nowrap shrink-0 self-start sm:self-auto cursor-pointer shadow-2xs"
           >
-            <CheckCheck size={14} />
-            Mark all read
-          </Button>
+            <CheckCheck size={14} className="text-primary-600 shrink-0" />
+            <span>Mark all read</span>
+          </button>
         )}
-      </div>
-
-      {/* 3 Interactive Scenarios Sandbox Bar */}
-      <div className="bg-gradient-to-r from-primary-50/70 via-white to-blue-50/50 border border-primary-200 rounded-2xl p-4 md:p-5 space-y-3">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <Zap size={16} className="text-amber-500 fill-amber-500" />
-            <h2 className="text-xs font-bold text-primary-950 uppercase tracking-wider">
-              Simulate Core Market Scenarios (Demo Sandbox)
-            </h2>
-          </div>
-          <span className="text-[11px] text-textMuted hidden sm:inline">
-            Click to test full flow
-          </span>
-        </div>
-
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
-          <button
-            onClick={() =>
-              handleSimulateScenario(
-                'RBI Repo Rate Cut (-25 bps)',
-                '/event/evt-rbi-001',
-                'n1'
-              )
-            }
-            className="p-3 bg-white hover:bg-primary-50/80 border border-border hover:border-primary-300 rounded-xl text-left transition-all shadow-2xs group"
-          >
-            <span className="text-xs font-bold text-textPrimary group-hover:text-primary-700 block">
-              1. RBI Rate Cut
-            </span>
-            <span className="text-[11px] text-textMuted leading-tight block mt-0.5">
-              Debt, banking margin & G-Sec impacts
-            </span>
-          </button>
-
-          <button
-            onClick={() =>
-              handleSimulateScenario(
-                'Apex InfoTech Q3 Financial Results',
-                '/instrument/stock-apxinf?tab=financials',
-                'n3'
-              )
-            }
-            className="p-3 bg-white hover:bg-primary-50/80 border border-border hover:border-primary-300 rounded-xl text-left transition-all shadow-2xs group"
-          >
-            <span className="text-xs font-bold text-textPrimary group-hover:text-primary-700 block">
-              2. Q3 Earnings Surprise
-            </span>
-            <span className="text-[11px] text-textMuted leading-tight block mt-0.5">
-              Why shares can fall after good results
-            </span>
-          </button>
-
-          <button
-            onClick={() =>
-              handleSimulateScenario(
-                'Brent Crude Oil Spike (+7.5%)',
-                '/event/evt-oil-001',
-                'n2'
-              )
-            }
-            className="p-3 bg-white hover:bg-primary-50/80 border border-border hover:border-primary-300 rounded-xl text-left transition-all shadow-2xs group"
-          >
-            <span className="text-xs font-bold text-textPrimary group-hover:text-primary-700 block">
-              3. Crude Oil Surge
-            </span>
-            <span className="text-[11px] text-textMuted leading-tight block mt-0.5">
-              OMC margins & import costs
-            </span>
-          </button>
-        </div>
       </div>
 
       {/* Filter Tabs */}
@@ -222,6 +153,7 @@ export const NotificationsPage: React.FC = () => {
           filteredList.map((notif) => {
             const read = isRead(notif.id);
             const instId = notif.instrumentId || notif.relatedInstrumentId;
+            const badgeConfig = getNotificationBadgeConfig(notif.type);
 
             return (
               <div
@@ -233,9 +165,9 @@ export const NotificationsPage: React.FC = () => {
                 }`}
               >
                 <div className="flex items-start justify-between gap-3">
-                  <div className="flex items-start gap-3">
+                  <div className="flex items-start gap-3 flex-1 min-w-0">
                     {/* Unread indicator dot */}
-                    <div className="pt-1">
+                    <div className="pt-1 shrink-0">
                       <span
                         className={`block w-2.5 h-2.5 rounded-full ${
                           read ? 'bg-transparent border border-border' : 'bg-primary-500'
@@ -244,13 +176,16 @@ export const NotificationsPage: React.FC = () => {
                       />
                     </div>
 
-                    <div className="space-y-1">
-                      <div className="flex items-center gap-2">
-                        <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded bg-bgSurface text-textMuted border border-border">
-                          {notif.type}
+                    <div className="space-y-1.5 flex-1 min-w-0">
+                      <div className="flex items-center gap-2 flex-wrap">
+                        <span
+                          className={`inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider border shadow-2xs ${badgeConfig.classes}`}
+                        >
+                          <span className={`w-1.5 h-1.5 rounded-full ${badgeConfig.dotColor} shrink-0`} />
+                          <span>{notif.type}</span>
                         </span>
-                        <span className="text-xs text-textMuted">
-                          {formatDateIST(notif.createdAt || notif.timestamp || '')}
+                        <span className="text-xs text-textMuted font-medium">
+                          {formatDate24h(notif.createdAt || notif.timestamp || '')}
                         </span>
                         <DemoBadge size="xs" />
                       </div>
@@ -268,24 +203,27 @@ export const NotificationsPage: React.FC = () => {
                       </p>
 
                       {/* CTAs strictly non-impulsive: View event or instrument only! */}
-                      <div className="pt-2 flex flex-wrap items-center gap-2.5">
+                      <div className="pt-2 flex flex-wrap items-center gap-x-4 gap-y-2">
                         <button
+                          type="button"
                           onClick={() => handleOpenNotification(notif)}
-                          className="inline-flex items-center gap-1.5 text-xs font-bold text-primary-600 hover:text-primary-700 hover:underline"
+                          className="inline-flex items-center gap-1.5 text-xs font-bold text-primary-600 hover:text-primary-700 hover:underline cursor-pointer"
                         >
-                          Explore Analysis & Details
+                          <span>Explore Analysis & Details</span>
                           <ArrowRight size={13} />
                         </button>
 
                         {instId && (
                           <button
+                            type="button"
                             onClick={() => {
                               dispatch({ type: 'MARK_NOTIFICATION_READ', payload: notif.id });
                               navigate(`/instrument/${instId}`);
                             }}
-                            className="inline-flex items-center gap-1 text-[11px] text-textMuted hover:text-textPrimary bg-bgSurface px-2 py-1 rounded border border-border"
+                            className="inline-flex items-center gap-1.5 text-xs font-bold text-primary-600 hover:text-primary-700 hover:underline cursor-pointer"
                           >
-                            View Instrument Profile
+                            <span>View Instrument Profile</span>
+                            <ArrowRight size={13} />
                           </button>
                         )}
                       </div>

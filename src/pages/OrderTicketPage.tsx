@@ -228,7 +228,7 @@ export const OrderTicketPage: React.FC = () => {
                     : 'text-textSecondary hover:text-textPrimary'
                 }`}
               >
-                Buy (Simulated)
+                Buy
               </button>
               <button
                 type="button"
@@ -239,7 +239,7 @@ export const OrderTicketPage: React.FC = () => {
                     : 'text-textSecondary hover:text-textPrimary'
                 }`}
               >
-                Sell (Simulated)
+                Sell
               </button>
             </div>
           )}
@@ -346,7 +346,7 @@ export const OrderTicketPage: React.FC = () => {
                       : 'bg-white text-textSecondary border-border hover:bg-bgSurface'
                   }`}
                 >
-                  Market (At current price)
+                  Market
                 </button>
                 <button
                   type="button"
@@ -357,7 +357,7 @@ export const OrderTicketPage: React.FC = () => {
                       : 'bg-white text-textSecondary border-border hover:bg-bgSurface'
                   }`}
                 >
-                  Limit (Specify price)
+                  Limit
                 </button>
               </div>
 
@@ -435,11 +435,12 @@ export const OrderTicketPage: React.FC = () => {
           <Button
             variant="primary"
             size="lg"
+            fullWidth
             onClick={handleReviewOrder}
-            className="w-full text-sm font-bold flex items-center justify-center gap-2"
+            className="text-sm font-bold whitespace-nowrap"
+            rightIcon={<ChevronRight size={16} className="shrink-0" />}
           >
-            Review Simulated Order
-            <ChevronRight size={16} />
+            Review Order
           </Button>
         </div>
       </div>

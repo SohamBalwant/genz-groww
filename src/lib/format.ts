@@ -131,6 +131,37 @@ export function formatDateIST(isoString: string): string {
   return formatDate(isoString, { includeTime: true });
 }
 
+/**
+ * Formats ISO string into clean 24-hour clock date string without AM/PM or timezone label.
+ * Example: "14 Mar 2025, 16:05"
+ */
+export function formatDate24h(isoString: string): string {
+  try {
+    const date = new Date(isoString);
+    if (isNaN(date.getTime())) {
+      return isoString;
+    }
+
+    const formattedDate = date.toLocaleDateString('en-IN', {
+      day: 'numeric',
+      month: 'short',
+      year: 'numeric',
+      timeZone: 'Asia/Kolkata',
+    });
+
+    const time = date.toLocaleTimeString('en-GB', {
+      hour: '2-digit',
+      minute: '2-digit',
+      hour12: false,
+      timeZone: 'Asia/Kolkata',
+    });
+
+    return `${formattedDate}, ${time}`;
+  } catch {
+    return isoString;
+  }
+}
+
 export const formatPct = formatPercent;
 
 export function formatPeriodLabel(period: string): string {

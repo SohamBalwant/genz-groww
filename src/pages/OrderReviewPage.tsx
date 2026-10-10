@@ -5,7 +5,7 @@ import { ChargesBreakdown } from '../components/trade/ChargesBreakdown';
 import { DemoBadge } from '../components/ui/DemoBadge';
 import { Button } from '../components/ui/Button';
 import { formatINR } from '../lib/format';
-import { ArrowLeft, AlertTriangle } from 'lucide-react';
+import { ArrowLeft } from 'lucide-react';
 import type { SimulatedOrder } from '../types';
 
 export const OrderReviewPage: React.FC = () => {
@@ -13,7 +13,6 @@ export const OrderReviewPage: React.FC = () => {
   const navigate = useNavigate();
 
   const draft = state.activeOrderDraft;
-  const [isConfirmedCheckbox, setIsConfirmedCheckbox] = useState(false);
   const [submitting, setSubmitting] = useState(false);
 
   // If no draft exists (e.g. user refreshed or arrived directly)
@@ -39,7 +38,7 @@ export const OrderReviewPage: React.FC = () => {
     : Math.max(0, orderValue - totalCharges);
 
   const handleConfirmOrder = () => {
-    if (!isConfirmedCheckbox || submitting || !draft.charges) return;
+    if (submitting || !draft.charges) return;
     setSubmitting(true);
 
     const orderId = `ord-${Date.now().toString(36)}-${Math.random().toString(36).substring(2, 6)}`;
@@ -90,7 +89,7 @@ export const OrderReviewPage: React.FC = () => {
             <DemoBadge size="xs" />
           </div>
           <h1 className="text-xl md:text-2xl font-bold text-textPrimary tracking-tight">
-            Review Simulated {draft.side} Order
+            Review {draft.side} Order
           </h1>
           <p className="text-xs text-textSecondary mt-0.5">
             Review all trade parameters and itemised statutory charges before recording.
@@ -118,7 +117,7 @@ export const OrderReviewPage: React.FC = () => {
                 isBuy ? 'bg-primary-500 text-white' : 'bg-loss text-white'
               }`}
             >
-              Simulated {draft.side}
+              {draft.side}
             </span>
           </div>
 
@@ -185,55 +184,23 @@ export const OrderReviewPage: React.FC = () => {
           </span>
         </div>
 
-        {/* Non-Negotiable Prototype Notice */}
-        <div className="p-4 bg-amber-50/80 border border-amber-300 rounded-xl space-y-2">
-          <div className="flex items-center gap-2 text-amber-900 font-bold text-xs">
-            <AlertTriangle size={16} className="text-amber-700 shrink-0" />
-            <span>Simulated Environment Protection Notice</span>
-          </div>
-          <p className="text-xs text-amber-950/90 leading-relaxed">
-            This is a <strong>simulated prototype order</strong> designed for learning. No real funds are transferred, no exchange order is placed on NSE or BSE, and no Demat account changes will occur.
-          </p>
-        </div>
-
-        {/* Mandatory Confirmation Checkbox */}
-        <div className="p-4 bg-bgSurface border border-border rounded-xl">
-          <label className="flex items-start gap-3 cursor-pointer">
-            <input
-              type="checkbox"
-              id="confirm-simulated-checkbox"
-              checked={isConfirmedCheckbox}
-              onChange={(e) => setIsConfirmedCheckbox(e.target.checked)}
-              className="mt-0.5 w-4 h-4 rounded border-borderMd text-primary-500 focus:ring-primary-500 accent-primary-500 cursor-pointer"
-            />
-            <span className="text-xs text-textPrimary font-medium leading-relaxed">
-              I understand that this is a simulated order and not a real transaction on any stock exchange.
-            </span>
-          </label>
-        </div>
-
         {/* Action Buttons */}
-        <div className="flex flex-col sm:flex-row items-center gap-3 pt-2">
+        <div className="grid grid-cols-2 gap-3 pt-2">
           <Button
             variant="outline"
             onClick={() => navigate(-1)}
-            className="w-full sm:w-1/3"
+            className="w-full font-semibold"
           >
             Edit Order
           </Button>
 
           <Button
             variant="primary"
-            size="lg"
-            disabled={!isConfirmedCheckbox || submitting}
+            disabled={submitting}
             onClick={handleConfirmOrder}
-            className={`w-full sm:w-2/3 font-bold transition-all ${
-              !isConfirmedCheckbox
-                ? 'opacity-50 cursor-not-allowed bg-slate-300 text-slate-600 border-none'
-                : 'bg-primary-500 hover:bg-primary-600 text-white'
-            }`}
+            className="w-full font-bold bg-primary-500 hover:bg-primary-600 text-white whitespace-nowrap text-xs sm:text-sm px-2.5 sm:px-4"
           >
-            {submitting ? 'Recording...' : 'Confirm Simulated Order'}
+            {submitting ? 'Recording...' : 'Confirm Order'}
           </Button>
         </div>
       </div>

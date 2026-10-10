@@ -5,7 +5,7 @@ import { DemoBadge } from '../components/ui/DemoBadge';
 import { Button } from '../components/ui/Button';
 import { EmptyState } from '../components/ui/EmptyState';
 import { formatINR, formatDateIST } from '../lib/format';
-import { ArrowRight, ShieldCheck, Clock } from 'lucide-react';
+import { ArrowRight, Clock } from 'lucide-react';
 
 export const OrdersPage: React.FC = () => {
   const { state } = useApp();
@@ -30,11 +30,6 @@ export const OrdersPage: React.FC = () => {
           <p className="text-xs text-textSecondary mt-0.5">
             Log of all demo orders executed in this browser session with itemised charge records.
           </p>
-        </div>
-
-        <div className="flex items-center gap-2 text-xs text-textMuted bg-bgSurface px-3 py-1.5 rounded-xl border border-border">
-          <ShieldCheck size={14} className="text-primary-600" />
-          <span>Local Mock Storage Only</span>
         </div>
       </div>
 
@@ -70,7 +65,7 @@ export const OrdersPage: React.FC = () => {
                         isBuy ? 'bg-primary-50 text-primary-700' : 'bg-loss/10 text-loss'
                       }`}
                     >
-                      Simulated {order.side}
+                      {order.side}
                     </span>
                     <span className="text-xs font-bold text-textPrimary">
                       {order.instrumentName}
@@ -79,10 +74,6 @@ export const OrdersPage: React.FC = () => {
                       {order.product}
                     </span>
                   </div>
-
-                  <span className="text-[11px] font-semibold text-emerald-800 bg-emerald-50 border border-emerald-200 px-2 py-0.5 rounded-full">
-                    EXECUTED (SIMULATED)
-                  </span>
                 </div>
 
                 <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs">

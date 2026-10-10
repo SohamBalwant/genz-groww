@@ -3,7 +3,7 @@
 **Project:** Groww for Gen Z (Interactive PM Internship Prototype)  
 **Specification Reference:** `SPEC.md` §15 Acceptance Tests (T1–T20)  
 **Execution Environment:** Node.js, Vite 5, React 18, TypeScript 5, Vitest 2  
-**Test Suite Summary:** 5 test files, 33 tests executed, 33 passed (100% pass rate)  
+**Test Suite Summary:** 11 test files, 67 tests executed, 67 passed (100% pass rate)  
 **Build Verification:** `tsc && vite build` (0 TypeScript errors, clean bundle)  
 **Linter Verification:** `eslint .` (0 errors, 0 warnings)  
 
@@ -49,15 +49,21 @@ All mock data is explicitly labelled with persistent `Demo` badges and disclaime
 ```
  RUN  v2.1.9 D:/genz groww
 
- ✓ src/lib/options/options.test.ts (7 tests)
+ ✓ src/lib/options/blackScholes.test.ts (6 tests)
  ✓ src/lib/fees/calculateCharges.test.ts (5 tests)
- ✓ src/lib/format.test.ts (8 tests)
+ ✓ src/lib/format.test.ts (9 tests)
+ ✓ src/lib/options/options.test.ts (7 tests)
  ✓ src/state/tradeGuard.test.ts (8 tests)
  ✓ src/data/data.test.ts (5 tests)
+ ✓ src/pages/NotificationsPage.test.tsx (3 tests)
+ ✓ src/pages/OptionsLabPage.test.tsx (12 tests)
+ ✓ src/pages/News.test.tsx (4 tests)
+ ✓ src/pages/EventPage.test.tsx (2 tests)
+ ✓ src/pages/LearnPage.test.tsx (6 tests)
 
- Test Files  5 passed (5)
-      Tests  33 passed (33)
-   Duration  2.21s
+ Test Files  11 passed (11)
+      Tests  67 passed (67)
+   Duration  5.53s
 ```
 
 ### Breakdown of Automated Test Coverage:

@@ -141,7 +141,7 @@ export const AppShell: React.FC = () => {
 
           {/* ─── Inner Mobile Screen Viewport ─── */}
           <div
-            className={`w-full h-full min-h-screen md:min-h-0 bg-bgSurface flex flex-col relative overflow-hidden ${
+            className={`w-full h-full min-h-screen md:min-h-0 bg-bgSurface flex flex-col relative overflow-hidden [transform:translateZ(0)] ${
               mode === 'phone' ? 'md:rounded-[42px]' : mode === 'frameless' ? 'md:rounded-3xl' : 'md:rounded-2xl'
             }`}
           >

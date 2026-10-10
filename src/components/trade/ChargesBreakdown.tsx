@@ -38,7 +38,7 @@ export const ChargesBreakdown: React.FC<ChargesBreakdownProps> = ({
           aria-expanded={isExpanded}
           className="text-xs font-semibold text-primary-600 hover:text-primary-700 flex items-center gap-1 p-1 rounded focus-visible:outline-2 focus-visible:outline-primary-500"
         >
-          <span>{isExpanded ? 'Hide breakdown' : 'Itemised breakdown'}</span>
+          <span>{isExpanded ? 'Hide breakdown' : 'Breakdown'}</span>
           <ChevronDown
             size={16}
             className={`transition-transform duration-150 ${isExpanded ? 'rotate-180' : ''}`}

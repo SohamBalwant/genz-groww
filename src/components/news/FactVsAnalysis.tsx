@@ -5,7 +5,7 @@ export const FactVsAnalysis: React.FC<{
   facts: string[];
   analysis: string[];
   caveats?: string[];
-}> = ({ facts, analysis, caveats }) => {
+}> = ({ facts, analysis }) => {
   return (
     <div className="space-y-4">
       {/* 1. Confirmed Facts Section */}
@@ -33,18 +33,6 @@ export const FactVsAnalysis: React.FC<{
           ))}
         </ul>
       </div>
-
-      {/* 3. Caveats / Uncertainties if provided */}
-      {caveats && caveats.length > 0 && (
-        <div className="p-3 bg-amber-50/60 rounded-xl border border-amber-200 text-xs text-amber-900 space-y-1">
-          <span className="font-semibold block text-amber-800">Uncertainties to keep in mind:</span>
-          <ul className="list-disc list-inside space-y-1 leading-relaxed text-[11px]">
-            {caveats.map((c, i) => (
-              <li key={i}>{c}</li>
-            ))}
-          </ul>
-        </div>
-      )}
     </div>
   );
 };

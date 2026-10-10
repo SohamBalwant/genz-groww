@@ -178,19 +178,19 @@ export const OptionsLabPage: React.FC = () => {
         </div>
 
         {/* Expiry Selector */}
-        <div className="space-y-2">
+        <div className="space-y-2.5">
           <div className="flex items-center justify-between text-xs">
             <span className="font-bold text-textPrimary flex items-center gap-1.5">
               <Calendar size={13} className="text-primary-600" />
-              <span>Expiry Date Selection</span>
+              <span>Expiry</span>
             </span>
-            <span className="text-[11px] text-textMuted">
+            <span className="text-xs text-textMuted">
               Time to Expiry:{' '}
-              <strong className="text-primary-700 font-bold">{dte} calendar days</strong>
+              <span className="font-semibold text-textPrimary">{dte} days</span>
             </span>
           </div>
 
-          <div className="flex items-center gap-2 overflow-x-auto no-scrollbar pb-1">
+          <div className="flex items-center gap-2 overflow-x-auto no-scrollbar pb-0.5">
             {selectedInstrument.expiries.map((exp) => {
               const isSelected = exp === selectedExpiry;
               const expDte = selectedInstrument.expiryDtes[exp] ?? 12;
@@ -198,17 +198,18 @@ export const OptionsLabPage: React.FC = () => {
                 <button
                   key={exp}
                   type="button"
+                  aria-label={exp}
                   onClick={() => handleSelectExpiry(exp)}
-                  className={`px-3 py-2 rounded-xl text-xs font-bold transition-all whitespace-nowrap flex items-center gap-2 cursor-pointer ${
+                  className={`px-3 py-1.5 rounded-full text-xs font-semibold transition-all whitespace-nowrap flex items-center gap-1.5 cursor-pointer ${
                     isSelected
                       ? 'bg-primary-600 text-white shadow-xs'
-                      : 'bg-bgSurface text-textSecondary hover:bg-slate-100 border border-border'
+                      : 'bg-white text-textPrimary hover:bg-slate-50 border border-border shadow-2xs'
                   }`}
                 >
-                  <span>{exp}</span>
+                  <span>{exp.replace(/-/g, ' ')}</span>
                   <span
-                    className={`text-[10px] px-1.5 py-0.2 rounded-full font-semibold ${
-                      isSelected ? 'bg-white/20 text-white' : 'bg-slate-200/80 text-textSecondary'
+                    className={`text-[10px] px-1.5 py-0.5 rounded-full font-medium ${
+                      isSelected ? 'bg-white/20 text-white' : 'bg-slate-100 text-textMuted'
                     }`}
                   >
                     {expDte}d left

@@ -616,21 +616,33 @@ export const LearnPage: React.FC = () => {
                         </h3>
 
                         {/* Module progress pill */}
-                        <div className="pt-0.5 flex items-center gap-3 text-[11px] text-textMuted">
-                          <div className="w-28 h-1.5 bg-slate-200 rounded-full overflow-hidden">
-                            <div
-                              className="h-full bg-primary-600 rounded-full transition-all"
-                              style={{
-                                width: `${(modCompletedChapters / mod.chapters.length) * 100}%`,
-                              }}
-                            />
+                        <div className="pt-1 flex flex-wrap items-center gap-x-2.5 gap-y-1 text-xs text-textMuted">
+                          <div className="flex items-center gap-2">
+                            <div className="w-20 sm:w-24 h-1.5 bg-slate-200 rounded-full overflow-hidden shrink-0">
+                              <div
+                                className="h-full bg-primary-600 rounded-full transition-all"
+                                style={{
+                                  width: `${(modCompletedChapters / mod.chapters.length) * 100}%`,
+                                }}
+                              />
+                            </div>
+                            <span className="text-[11px] font-medium text-textSecondary whitespace-nowrap">
+                              {modCompletedChapters}/{mod.chapters.length} Chapters
+                            </span>
                           </div>
-                          <span>
-                            {modCompletedChapters}/{mod.chapters.length} Chapters Read
-                          </span>
                           {modQuizStatus && (
-                            <span className={modQuizStatus.passed ? 'text-emerald-700 font-semibold' : 'text-amber-700'}>
-                              • Quiz: {modQuizStatus.score}/{modQuizStatus.total} {modQuizStatus.passed ? '(Passed)' : ''}
+                            <span
+                              className={`text-[11px] font-medium whitespace-nowrap flex items-center gap-1.5 ${
+                                modQuizStatus.passed ? 'text-emerald-700' : 'text-amber-700'
+                              }`}
+                            >
+                              <span className="text-slate-300">•</span>
+                              <span>Quiz: {modQuizStatus.score}/{modQuizStatus.total}</span>
+                              {modQuizStatus.passed && (
+                                <span className="text-[10px] bg-emerald-100 text-emerald-800 px-1 py-0.2 rounded font-semibold">
+                                  Passed
+                                </span>
+                              )}
                             </span>
                           )}
                         </div>
@@ -677,15 +689,15 @@ export const LearnPage: React.FC = () => {
                                   </h4>
                                 </div>
 
-                                <div className="shrink-0 flex items-center gap-2">
+                                <div className="shrink-0 flex items-center">
                                   <Button
                                     size="sm"
                                     variant={isChapDone ? 'outline' : 'primary'}
-                                    className="text-xs font-bold"
+                                    leftIcon={<FileText size={12} className="shrink-0" />}
+                                    className="text-xs font-semibold whitespace-nowrap shrink-0 px-2.5 py-1 h-8 min-h-[32px] shadow-2xs"
                                     onClick={() => handleOpenChapter(mod, chap, chapIdx)}
                                   >
-                                    <FileText size={13} />
-                                    <span>{isChapDone ? 'Review Chapter' : 'Read Chapter'}</span>
+                                    {isChapDone ? 'Review Chapter' : 'Read Chapter'}
                                   </Button>
                                 </div>
                               </div>
@@ -705,25 +717,23 @@ export const LearnPage: React.FC = () => {
                             </h4>
                           </div>
 
-                          <div className="shrink-0">
+                          <div className="shrink-0 flex items-center">
                             <Button
                               size="sm"
                               variant={modQuizStatus?.passed ? 'outline' : 'primary'}
-                              className={
+                              rightIcon={<ArrowRight size={12} className="shrink-0" />}
+                              className={`text-xs font-semibold whitespace-nowrap shrink-0 px-3 py-1 h-8 min-h-[32px] shadow-2xs ${
                                 modQuizStatus?.passed
-                                  ? 'bg-emerald-50 text-emerald-800 border-emerald-300 font-bold'
-                                  : 'bg-primary-600 text-white font-bold'
-                              }
+                                  ? 'bg-emerald-50 text-emerald-800 border-emerald-300'
+                                  : 'bg-primary-600 text-white'
+                              }`}
                               onClick={() => handleOpenQuiz(mod)}
                             >
-                              <span>
-                                {modQuizStatus
-                                  ? modQuizStatus.passed
-                                    ? `✓ Passed (${modQuizStatus.score}/${modQuizStatus.total})`
-                                    : `Retake Quiz (${modQuizStatus.score}/${modQuizStatus.total})`
-                                  : 'Take Module Quiz'}
-                              </span>
-                              <ArrowRight size={13} />
+                              {modQuizStatus
+                                ? modQuizStatus.passed
+                                  ? `Passed (${modQuizStatus.score}/${modQuizStatus.total})`
+                                  : `Retake Quiz (${modQuizStatus.score}/${modQuizStatus.total})`
+                                : 'Take Module Quiz'}
                             </Button>
                           </div>
                         </div>
@@ -857,34 +867,33 @@ export const LearnPage: React.FC = () => {
       {activeTab === 'qa' && (
         <div className="space-y-4 animate-fadeIn">
           {/* Ask Question Card */}
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-white p-4 sm:p-5 rounded-2xl border border-border shadow-2xs">
+          <div className="bg-white p-4 sm:p-5 rounded-2xl border border-border shadow-2xs space-y-3.5">
             <div className="space-y-1">
-              <div className="flex items-center gap-2">
-                <span className="text-xs font-bold text-primary-600 uppercase tracking-wider">
-                  Community Q&A
-                </span>
-                <span className="text-[11px] text-textMuted">• Verified Practitioner Advice</span>
-              </div>
-              <h3 className="text-base font-bold text-textPrimary">
+              <span className="text-xs font-bold text-primary-600 uppercase tracking-wider block">
+                Community Q&A
+              </span>
+              <h3 className="text-base font-bold text-textPrimary leading-snug">
                 Ask a Question to SEBI-Registered Mentors
               </h3>
-              <p className="text-xs text-textSecondary">
+              <p className="text-xs text-textSecondary leading-relaxed">
                 Get clarity on taxes, index rebalancing, sovereign G-Secs, NAV pricing, or expense ratios.
               </p>
             </div>
-            <Button
-              size="sm"
-              variant="primary"
-              className="font-bold shrink-0 text-xs"
-              onClick={() => {
-                if (qaSearchQuery.trim() && !questionText) {
-                  setQuestionText(qaSearchQuery.trim());
-                }
-                setShowAskModal(true);
-              }}
-            >
-              Ask Anonymous Question
-            </Button>
+            <div className="pt-0.5">
+              <Button
+                size="sm"
+                variant="primary"
+                className="font-bold text-xs whitespace-nowrap w-full sm:w-auto"
+                onClick={() => {
+                  if (qaSearchQuery.trim() && !questionText) {
+                    setQuestionText(qaSearchQuery.trim());
+                  }
+                  setShowAskModal(true);
+                }}
+              >
+                Ask Anonymous Question
+              </Button>
+            </div>
           </div>
 
           {/* Search Bar & Topic Filter Pills */}
@@ -967,12 +976,9 @@ export const LearnPage: React.FC = () => {
             <div className="space-y-4">
               {/* Question Header with Counter Pill */}
               <div className="flex items-center justify-between px-1">
-                <div className="space-y-0.5">
-                  <span className="text-[11px] font-bold uppercase tracking-wider text-primary-700 bg-primary-100/70 px-2.5 py-0.5 rounded-full border border-primary-200/50">
-                    Question {safeQaIndex + 1} of {totalQa}
-                  </span>
+                <div>
                   <h3 className="text-base font-bold text-textPrimary tracking-tight">
-                    Practitioner Q&A Discussion
+                    Question & Mentor Answer
                   </h3>
                 </div>
 
@@ -1203,16 +1209,14 @@ export const LearnPage: React.FC = () => {
                 type="button"
                 size="sm"
                 variant="primary"
+                leftIcon={<Check size={14} className="shrink-0" />}
+                rightIcon={<ArrowRight size={14} className="shrink-0" />}
                 className="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs py-2.5 justify-center"
                 onClick={handleNextChapter}
               >
-                <Check size={14} />
-                <span>
-                  {activeChapter.chapterIndex < activeChapter.module.chapters.length - 1
-                    ? 'Mark Complete & Next Chapter'
-                    : 'Mark Complete & Take Quiz'}
-                </span>
-                <ArrowRight size={14} />
+                {activeChapter.chapterIndex < activeChapter.module.chapters.length - 1
+                  ? 'Mark Complete & Next Chapter'
+                  : 'Mark Complete & Take Quiz'}
               </Button>
 
               <Button
@@ -1348,13 +1352,15 @@ export const LearnPage: React.FC = () => {
                       {/* Next / Finish Button */}
                       {hasAnswered && (
                         <div className="flex justify-end pt-2">
-                          <Button size="sm" variant="primary" onClick={handleNextQuizQuestion}>
-                            <span>
-                              {quizQuestionIndex < activeQuiz.quiz.questions.length - 1
-                                ? 'Next Question'
-                                : 'Finish Quiz & Record Score'}
-                            </span>
-                            <ArrowRight size={13} />
+                          <Button
+                            size="sm"
+                            variant="primary"
+                            rightIcon={<ArrowRight size={13} className="shrink-0" />}
+                            onClick={handleNextQuizQuestion}
+                          >
+                            {quizQuestionIndex < activeQuiz.quiz.questions.length - 1
+                              ? 'Next Question'
+                              : 'Finish Quiz & Record Score'}
                           </Button>
                         </div>
                       )}
@@ -1438,7 +1444,7 @@ export const LearnPage: React.FC = () => {
             onClick={(e) => e.stopPropagation()}
             className="bg-white rounded-2xl max-w-[390px] w-full p-5 space-y-4 shadow-xl border border-border animate-scaleIn"
           >
-            <h2 className="text-lg font-bold text-textPrimary">Ask a Question (Simulated)</h2>
+            <h2 className="text-lg font-bold text-textPrimary">Ask a Question</h2>
             <p className="text-xs text-textSecondary">
               Your question will be posted anonymously to SEBI-registered mentors and verified practitioners.
             </p>

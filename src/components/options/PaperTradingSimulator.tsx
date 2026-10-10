@@ -21,6 +21,7 @@ import {
   BookmarkPlus,
   Info,
   ShieldCheck,
+  Calendar,
 } from 'lucide-react';
 
 export interface PaperTradingSimulatorProps {
@@ -138,26 +139,27 @@ export const PaperTradingSimulator: React.FC<PaperTradingSimulatorProps> = ({
   return (
     <div className="p-4 sm:p-5 bg-white rounded-2xl border border-border shadow-xs space-y-5 select-none">
       {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-3 border-b border-border">
-        <div>
+      <div className="space-y-2 pb-3 border-b border-border">
+        <div className="flex items-center justify-between gap-2 flex-wrap">
           <div className="flex items-center gap-2">
             <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded bg-emerald-50 text-emerald-800 border border-emerald-200">
               Paper-Trading Simulator
             </span>
             <DemoBadge size="xs" />
           </div>
-          <h3 className="text-base sm:text-lg font-bold text-textPrimary tracking-tight mt-0.5">
-            Simulate Position: {underlyingTicker} {contract.strike} {contract.type}
-          </h3>
-          <p className="text-xs text-textSecondary">
-            Zero-risk simulation. Learn payoff curves, breakeven thresholds, and lot sizes before putting capital at risk.
-          </p>
+
+          <div className="flex items-center gap-1.5 text-xs text-textSecondary bg-bgSurface px-2.5 py-1 rounded-full border border-border whitespace-nowrap shrink-0 font-medium">
+            <Calendar size={12} className="text-primary-600" />
+            <span>Expiry: <strong className="text-textPrimary font-bold">{expiry.replace(/-/g, ' ')}</strong></span>
+          </div>
         </div>
 
-        <div className="text-right">
-          <span className="text-[10px] text-textMuted uppercase block">Contract Expiry</span>
-          <span className="text-xs font-bold text-textPrimary">{expiry}</span>
-        </div>
+        <h3 className="text-base sm:text-lg font-bold text-textPrimary tracking-tight">
+          Simulate Position: {underlyingTicker} {contract.strike} {contract.type}
+        </h3>
+        <p className="text-xs text-textSecondary leading-relaxed">
+          Zero-risk simulation. Learn payoff curves, breakeven thresholds, and lot sizes before putting capital at risk.
+        </p>
       </div>
 
       {/* Side Selector (BUY vs SELL) */}
@@ -209,12 +211,12 @@ export const PaperTradingSimulator: React.FC<PaperTradingSimulatorProps> = ({
       </div>
 
       {/* Inputs: Lots & Entry Price */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 p-3.5 bg-bgSurface rounded-xl border border-border">
-        {/* Lots Stepper */}
-        <div className="space-y-1.5">
-          <div className="flex justify-between items-center text-xs">
+      <div className="space-y-3">
+        {/* Card 1: Lots Stepper */}
+        <div className="p-3.5 bg-bgSurface rounded-xl border border-border space-y-2">
+          <div className="flex items-center justify-between text-xs">
             <span className="font-bold text-textPrimary">Number of Lots</span>
-            <span className="text-textMuted font-medium">
+            <span className="text-textMuted font-medium text-[11px] bg-white px-2 py-0.5 rounded border border-border/80">
               1 Lot = {lotSize} shares
             </span>
           </div>
@@ -224,34 +226,36 @@ export const PaperTradingSimulator: React.FC<PaperTradingSimulatorProps> = ({
               type="button"
               disabled={lots <= 1}
               onClick={() => setLots(Math.max(1, lots - 1))}
-              className="w-9 h-9 rounded-lg bg-white border border-border flex items-center justify-center text-textPrimary hover:bg-slate-50 disabled:opacity-40 cursor-pointer"
+              className="w-10 h-10 rounded-lg bg-white border border-border flex items-center justify-center text-textPrimary hover:bg-slate-50 disabled:opacity-40 cursor-pointer shadow-2xs"
               aria-label="Decrease lots"
             >
-              <Minus size={14} />
+              <Minus size={15} />
             </button>
 
-            <div className="flex-1 text-center py-1.5 bg-white border border-border rounded-lg">
+            <div className="flex-1 text-center py-2 bg-white border border-border rounded-lg shadow-2xs">
               <span className="text-base font-extrabold text-textPrimary tabular-nums">
                 {lots} {lots === 1 ? 'Lot' : 'Lots'}
               </span>
-              <span className="text-[10px] text-textMuted block">({totalShares} total units)</span>
+              <span className="text-[11px] text-textMuted block font-medium">
+                ({totalShares} total units)
+              </span>
             </div>
 
             <button
               type="button"
               disabled={lots >= 10}
               onClick={() => setLots(Math.min(10, lots + 1))}
-              className="w-9 h-9 rounded-lg bg-white border border-border flex items-center justify-center text-textPrimary hover:bg-slate-50 disabled:opacity-40 cursor-pointer"
+              className="w-10 h-10 rounded-lg bg-white border border-border flex items-center justify-center text-textPrimary hover:bg-slate-50 disabled:opacity-40 cursor-pointer shadow-2xs"
               aria-label="Increase lots"
             >
-              <Plus size={14} />
+              <Plus size={15} />
             </button>
           </div>
         </div>
 
-        {/* Entry Price */}
-        <div className="space-y-1.5">
-          <div className="flex justify-between items-center text-xs">
+        {/* Card 2: Entry Price */}
+        <div className="p-3.5 bg-bgSurface rounded-xl border border-border space-y-2">
+          <div className="flex items-center justify-between text-xs">
             <span className="font-bold text-textPrimary">Entry Premium (Per Share)</span>
             <button
               type="button"
@@ -262,40 +266,55 @@ export const PaperTradingSimulator: React.FC<PaperTradingSimulatorProps> = ({
             </button>
           </div>
 
-          <div className="relative flex items-center">
-            <span className="absolute left-3 text-sm font-bold text-textMuted">₹</span>
-            <input
-              type="number"
-              step="0.05"
-              min="0.05"
-              value={entryPremium}
-              onChange={(e) => setEntryPremium(Math.max(0.05, parseFloat(e.target.value) || 0))}
-              className="w-full pl-7 pr-3 py-2 bg-white border border-border rounded-lg text-sm font-extrabold text-textPrimary tabular-nums focus:outline-none focus:border-primary-500"
-              aria-label="Entry premium per share"
-            />
+          <div className="flex items-center gap-2">
+            <div className="relative flex-1 flex items-center">
+              <span className="absolute left-3 text-sm font-bold text-textMuted">₹</span>
+              <input
+                type="number"
+                step="0.05"
+                min="0.05"
+                value={entryPremium}
+                onChange={(e) => setEntryPremium(Math.max(0.05, parseFloat(e.target.value) || 0))}
+                className="w-full pl-7 pr-3 py-2 bg-white border border-border rounded-lg text-sm font-extrabold text-textPrimary tabular-nums focus:outline-none focus:border-primary-500 shadow-2xs"
+                aria-label="Entry premium per share"
+              />
+            </div>
+            <div className="bg-white px-3 py-2 rounded-lg border border-border text-right shrink-0 shadow-2xs">
+              <span className="text-[10px] text-textMuted block font-medium">Market LTP</span>
+              <span className="text-xs font-bold text-textSecondary tabular-nums">
+                ₹{contract.ltp.toFixed(2)}
+              </span>
+            </div>
           </div>
-
-          <span className="text-[11px] text-textMuted block">
-            Current Market LTP: ₹{contract.ltp.toFixed(2)}
-          </span>
         </div>
       </div>
 
-      {/* Distinction Pill: Per Share vs Total Contract Premium */}
-      <div className="p-3 bg-primary-50/60 rounded-xl border border-primary-200/60 flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-xs">
-        <div>
-          <span className="font-bold text-primary-950 flex items-center gap-1.5">
-            <Info size={14} className="text-primary-700" />
-            <span>Per Share vs Total Outlay Distinction:</span>
-          </span>
-          <p className="text-[11px] text-primary-900 leading-snug mt-0.5">
-            Options trade on a per-share price (₹{entryPremium.toFixed(2)}), but must be purchased in full lots ({lotSize} shares/lot).
-          </p>
+      {/* Distinction Card: Per Share vs Total Contract Premium */}
+      <div className="p-3.5 bg-primary-50/70 rounded-xl border border-primary-200/80 space-y-2.5 text-xs">
+        <div className="flex items-start gap-2.5">
+          <div className="p-1 rounded-md bg-primary-100 text-primary-700 shrink-0 mt-0.5">
+            <Info size={14} />
+          </div>
+          <div className="space-y-0.5 min-w-0">
+            <span className="font-bold text-primary-950 block">
+              Per Share vs Total Outlay Distinction:
+            </span>
+            <p className="text-[11px] text-primary-900/90 leading-relaxed">
+              Options trade on a per-share price (<strong className="font-semibold text-primary-950">₹{entryPremium.toFixed(2)}</strong>), but must be purchased in full lots (<strong className="font-semibold text-primary-950">{lotSize} shares/lot</strong>).
+            </p>
+          </div>
         </div>
 
-        <div className="bg-white px-3 py-1.5 rounded-lg border border-primary-200 shrink-0 text-right">
-          <span className="text-[10px] text-textMuted block uppercase font-semibold">Total Capital Outlay</span>
-          <span className="font-extrabold text-base text-primary-800 tabular-nums">
+        <div className="flex items-center justify-between p-2.5 px-3 bg-white rounded-lg border border-primary-200 shadow-2xs">
+          <div>
+            <span className="text-[10px] text-textMuted uppercase font-bold tracking-wider block">
+              Total Capital Outlay
+            </span>
+            <span className="text-[10px] text-textSecondary font-medium">
+              {lots} lot{lots > 1 ? 's' : ''} ({totalShares} shares)
+            </span>
+          </div>
+          <span className="font-black text-base sm:text-lg text-primary-800 tabular-nums">
             {formatINR(totalOutlay)}
           </span>
         </div>
@@ -385,57 +404,22 @@ export const PaperTradingSimulator: React.FC<PaperTradingSimulatorProps> = ({
         />
       </div>
 
-      {/* Key Metrics Grid */}
-      <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 p-3 bg-bgSurface rounded-xl border border-border text-xs">
-        <div>
-          <span className="text-[10px] text-textMuted block font-semibold">Breakeven at Expiry</span>
-          <span className="font-bold text-sm text-textPrimary tabular-nums">
-            ₹{breakeven.toLocaleString('en-IN')}
-          </span>
-          <span className="text-[9px] text-textMuted block">
-            {contract.type === 'CE' ? 'Strike + Premium' : 'Strike − Premium'}
-          </span>
-        </div>
-
-        <div>
-          <span className="text-[10px] text-textMuted block font-semibold">Maximum Loss</span>
-          <span className="font-bold text-sm text-loss tabular-nums">
-            {typeof maxLoss === 'number' ? `−${formatINR(maxLoss)}` : 'Unlimited'}
-          </span>
-          <span className="text-[9px] text-textMuted block">
-            {side === 'BUY' ? 'Capped at premium' : 'Unbounded risk'}
-          </span>
-        </div>
-
-        <div>
-          <span className="text-[10px] text-textMuted block font-semibold">Maximum Profit</span>
-          <span className="font-bold text-sm text-gain tabular-nums">
-            {maxProfit}
-          </span>
-          <span className="text-[9px] text-textMuted block">
-            {side === 'BUY' ? (contract.type === 'CE' ? 'Unlimited' : 'Down to zero') : 'Premium collected'}
-          </span>
-        </div>
-
-        <div>
-          <span className="text-[10px] text-textMuted block font-semibold">Total Outlay / Margin</span>
-          <span className="font-bold text-sm text-textPrimary tabular-nums">
-            {formatINR(totalOutlay)}
-          </span>
-          <span className="text-[9px] text-textMuted block">Paper capital</span>
-        </div>
-      </div>
-
       {/* Save Simulation Action & Feedback Toast */}
-      <div className="pt-2 border-t border-border flex flex-col sm:flex-row items-center justify-between gap-3">
-        <div className="flex items-center gap-1.5 text-xs text-textMuted">
-          <ShieldCheck size={15} className="text-primary-600" />
-          <span>Paper simulator. Real orders are never submitted.</span>
-        </div>
+      <div className="pt-3 border-t border-border space-y-2.5">
+        <div className="flex items-center justify-end gap-2 w-full">
+          {onClose && (
+            <Button
+              variant="outline"
+              size="sm"
+              className="text-xs font-semibold"
+              onClick={onClose}
+            >
+              Close
+            </Button>
+          )}
 
-        <div className="flex items-center gap-2 w-full sm:w-auto">
           {savedOrder ? (
-            <div className="flex items-center gap-2 text-xs font-bold text-emerald-700 bg-emerald-50 px-3 py-2 rounded-xl border border-emerald-200 animate-fadeIn">
+            <div className="flex items-center gap-2 text-xs font-bold text-emerald-700 bg-emerald-50 px-3.5 py-2 rounded-xl border border-emerald-200 animate-fadeIn">
               <CheckCircle2 size={16} />
               <span>Simulated Trade Saved! (View in Orders)</span>
             </div>
@@ -443,24 +427,18 @@ export const PaperTradingSimulator: React.FC<PaperTradingSimulatorProps> = ({
             <Button
               variant="primary"
               size="sm"
-              className="w-full sm:w-auto text-xs font-bold"
+              className="text-xs font-bold flex-1 sm:flex-initial"
               onClick={handleSavePaperTrade}
             >
               <BookmarkPlus size={14} />
               <span>Save to Paper Portfolio</span>
             </Button>
           )}
+        </div>
 
-          {onClose && (
-            <Button
-              variant="outline"
-              size="sm"
-              className="text-xs"
-              onClick={onClose}
-            >
-              Close
-            </Button>
-          )}
+        <div className="flex items-center justify-center gap-1.5 text-[11px] text-textMuted">
+          <ShieldCheck size={14} className="text-primary-600 shrink-0" />
+          <span>Paper simulator. Real orders are never submitted.</span>
         </div>
       </div>
     </div>

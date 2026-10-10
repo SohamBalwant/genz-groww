@@ -8,7 +8,6 @@ import {
   CheckCircle2,
   ArrowRight,
   Receipt,
-  ShieldCheck,
 } from 'lucide-react';
 
 export const OrderResultPage: React.FC = () => {
@@ -47,7 +46,7 @@ export const OrderResultPage: React.FC = () => {
         <div className="space-y-1">
           <div className="flex items-center justify-center gap-2">
             <span className="text-xs font-bold text-primary-700 bg-primary-50 border border-primary-200 px-2.5 py-0.5 rounded-full uppercase">
-              Simulated Execution
+              Success
             </span>
             <DemoBadge size="xs" />
           </div>
@@ -85,7 +84,7 @@ export const OrderResultPage: React.FC = () => {
           <div className="flex justify-between items-center border-b border-border pb-2.5">
             <span className="text-xs text-textMuted">Action & Product:</span>
             <span className="text-xs font-bold text-textPrimary">
-              Simulated {order.side} ({order.product})
+              {order.side} ({order.product})
             </span>
           </div>
 
@@ -120,32 +119,24 @@ export const OrderResultPage: React.FC = () => {
           </div>
         </div>
 
-        {/* Safety Note */}
-        <div className="p-3 bg-primary-50/50 border border-primary-200/60 rounded-xl text-left text-xs text-primary-900 flex items-start gap-2.5">
-          <ShieldCheck size={16} className="text-primary-600 shrink-0 mt-0.5" />
-          <p className="text-[11px] leading-relaxed">
-            This transaction was recorded entirely inside your local browser memory for prototype evaluation. No banking or Demat operations were triggered.
-          </p>
-        </div>
-
         {/* Navigation CTAs */}
-        <div className="flex flex-col sm:flex-row items-center gap-3 pt-2">
+        <div className="grid grid-cols-2 gap-3 pt-2">
           <Button
             variant="outline"
             onClick={() => navigate('/orders')}
-            className="w-full sm:w-1/2 flex items-center justify-center gap-2"
+            leftIcon={<Receipt size={16} className="shrink-0" />}
+            className="w-full font-semibold text-xs sm:text-sm whitespace-nowrap px-2.5 sm:px-4"
           >
-            <Receipt size={16} />
             View Orders List
           </Button>
 
           <Button
             variant="primary"
             onClick={() => navigate('/')}
-            className="w-full sm:w-1/2 flex items-center justify-center gap-2"
+            rightIcon={<ArrowRight size={16} className="shrink-0" />}
+            className="w-full font-bold text-xs sm:text-sm whitespace-nowrap px-2.5 sm:px-4 bg-primary-500 hover:bg-primary-600 text-white"
           >
             Explore More Markets
-            <ArrowRight size={16} />
           </Button>
         </div>
       </div>

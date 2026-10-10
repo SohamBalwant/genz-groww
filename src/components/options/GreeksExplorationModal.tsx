@@ -1,10 +1,8 @@
 import React, { useState } from 'react';
 import type { OptionContract } from '../../types';
 import { GreekCard } from './GreekCard';
-import { Button } from '../ui/Button';
 import { DemoBadge } from '../ui/DemoBadge';
-import { X, Compass, ArrowRight, BookOpen } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { X } from 'lucide-react';
 
 export interface GreeksExplorationModalProps {
   isOpen: boolean;
@@ -24,8 +22,6 @@ export const GreeksExplorationModal: React.FC<GreeksExplorationModalProps> = ({
   underlyingTicker,
   underlyingPrice,
   expiry,
-  onOpenSimulator,
-  onOpenScenarios,
 }) => {
   const [selectedGreekTab, setSelectedGreekTab] = useState<'all' | 'delta' | 'gamma' | 'theta' | 'vega' | 'rho'>('all');
 
@@ -36,9 +32,9 @@ export const GreeksExplorationModal: React.FC<GreeksExplorationModalProps> = ({
       role="dialog"
       aria-modal="true"
       aria-label="Option Greeks Deep Dive"
-      className="fixed inset-0 z-50 bg-black/60 backdrop-blur-xs flex items-center justify-center p-3 sm:p-5 overflow-y-auto"
+      className="fixed inset-0 z-50 bg-black/60 backdrop-blur-xs flex items-end justify-center overflow-hidden"
     >
-      <div className="bg-white rounded-2xl max-w-2xl w-full p-4 sm:p-6 space-y-4 shadow-2xl border border-border animate-scaleIn max-h-[92vh] overflow-y-auto">
+      <div className="bg-white rounded-t-3xl w-full p-4 sm:p-5 space-y-4 shadow-2xl border-t border-border animate-in slide-in-from-bottom-6 duration-200 max-h-[90vh] overflow-y-auto scrollbar-thin">
         {/* Header */}
         <div className="flex items-start justify-between gap-3 border-b border-border pb-3">
           <div className="space-y-1">
@@ -184,49 +180,6 @@ export const GreeksExplorationModal: React.FC<GreeksExplorationModalProps> = ({
           )}
         </div>
 
-        {/* Action Buttons */}
-        <div className="flex flex-col sm:flex-row items-center justify-between gap-2.5 pt-3 border-t border-border">
-          <Link
-            to="/learn?tab=paths"
-            onClick={onClose}
-            className="text-xs font-semibold text-textSecondary hover:text-primary-600 flex items-center gap-1.5"
-          >
-            <BookOpen size={14} />
-            <span>Master Derivatives in Learn Curriculum</span>
-          </Link>
-
-          <div className="flex items-center gap-2 w-full sm:w-auto">
-            {onOpenScenarios && (
-              <Button
-                variant="outline"
-                size="sm"
-                className="w-full sm:w-auto text-xs"
-                onClick={() => {
-                  onClose();
-                  onOpenScenarios();
-                }}
-              >
-                <Compass size={13} />
-                <span>Explore Scenarios</span>
-              </Button>
-            )}
-
-            {onOpenSimulator && (
-              <Button
-                variant="primary"
-                size="sm"
-                className="w-full sm:w-auto text-xs font-bold"
-                onClick={() => {
-                  onClose();
-                  onOpenSimulator();
-                }}
-              >
-                <span>Analyze in Simulator</span>
-                <ArrowRight size={13} />
-              </Button>
-            )}
-          </div>
-        </div>
       </div>
     </div>
   );

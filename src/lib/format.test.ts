@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { formatINR, formatPercent, formatLakhCrore, formatDate } from './format';
+import { formatINR, formatPercent, formatLakhCrore, formatDate, formatDate24h } from './format';
 
 describe('formatINR', () => {
   it('formats standard Indian currency with commas correctly', () => {
@@ -47,5 +47,16 @@ describe('formatDate', () => {
     const formatted = formatDate(iso);
     expect(formatted).toContain('2025');
     expect(formatted).toContain('Mar');
+  });
+});
+
+describe('formatDate24h', () => {
+  it('formats dates in 24-hour clock without am/pm and IST suffix', () => {
+    const iso = '2025-03-14T10:35:00.000Z'; // 16:05 IST
+    const formatted = formatDate24h(iso);
+    expect(formatted).toContain('14 Mar 2025');
+    expect(formatted).toContain('16:05');
+    expect(formatted).not.toMatch(/am|pm|AM|PM/);
+    expect(formatted).not.toContain('IST');
   });
 });

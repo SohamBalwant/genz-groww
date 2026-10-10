@@ -245,26 +245,26 @@ export const PayoffChart: React.FC<PayoffChartProps> = ({
       </div>
 
       {/* Accessible Text Summary */}
-      <div className="grid grid-cols-3 gap-2 p-3 bg-bgSurface rounded-xl border border-border text-xs">
+      <div className="grid grid-cols-3 gap-2 p-2.5 bg-bgSurface rounded-xl border border-border text-xs">
         <div>
-          <span className="text-textMuted block text-[11px]">Breakeven Price</span>
-          <span className="font-bold text-textPrimary text-sm tabular-nums">
+          <span className="text-textMuted block text-[10px] font-semibold">Breakeven Price</span>
+          <span className="font-extrabold text-textPrimary text-xs sm:text-[13px] tabular-nums mt-0.5 block">
             ₹{breakeven.toLocaleString('en-IN')}
           </span>
-          <span className="text-[10px] text-textMuted block">At expiration</span>
+          <span className="text-[9px] text-textMuted block mt-0.5">At expiration</span>
         </div>
         <div>
-          <span className="text-textMuted block text-[11px]">Maximum Loss</span>
-          <span className="font-bold text-loss text-sm tabular-nums">
+          <span className="text-textMuted block text-[10px] font-semibold">Maximum Loss</span>
+          <span className="font-extrabold text-loss text-xs sm:text-[13px] tabular-nums mt-0.5 block">
             {typeof maxLoss === 'number' ? `−${formatINR(maxLoss)}` : maxLoss}
           </span>
-          <span className="text-[10px] text-textMuted block leading-tight">
+          <span className="text-[9px] text-textMuted block leading-tight mt-0.5">
             {isBuy ? '(Total premium paid)' : '(Under extreme move)'}
           </span>
         </div>
         <div>
-          <span className="text-textMuted block text-[11px]">Maximum Profit</span>
-          <span className="font-bold text-gain text-sm block">
+          <span className="text-textMuted block text-[10px] font-semibold">Maximum Profit</span>
+          <span className="font-extrabold text-gain text-xs sm:text-[13px] block mt-0.5">
             {maxProfit !== undefined
               ? maxProfit
               : isBuy
@@ -273,7 +273,7 @@ export const PayoffChart: React.FC<PayoffChartProps> = ({
                 : `₹${((strike - (breakeven - strike)) * 25).toLocaleString('en-IN')}`
               : 'Capped at premium'}
           </span>
-          <span className="text-[10px] text-textMuted block leading-tight">
+          <span className="text-[9px] text-textMuted block leading-tight mt-0.5">
             {isBuy ? 'Above breakeven' : 'Max return on entry'}
           </span>
         </div>

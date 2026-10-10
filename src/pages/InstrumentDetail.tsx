@@ -163,42 +163,48 @@ export const InstrumentDetail: React.FC = () => {
       </div>
 
       {/* 1. Header Banner */}
-      <div className="bg-white border border-border rounded-2xl p-4 sm:p-5 shadow-2xs space-y-4">
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-          <div className="space-y-1">
-            <div className="flex items-center gap-2">
-              <span className="text-[11px] font-bold uppercase tracking-wider px-2 py-0.5 rounded bg-bgSurface text-textMuted border border-border">
-                {instrument.assetClass}
+      <div className="bg-white border border-border rounded-2xl p-4 sm:p-5 shadow-2xs space-y-3">
+        {/* Top Badges & Watchlist Action Row */}
+        <div className="flex items-center justify-between gap-3">
+          <div className="flex items-center gap-2 flex-wrap">
+            <span className="text-[11px] font-bold uppercase tracking-wider px-2 py-0.5 rounded bg-bgSurface text-textMuted border border-border">
+              {instrument.assetClass}
+            </span>
+            <DemoBadge size="xs" />
+            {stock?.hasOptions && (
+              <span className="text-[10px] font-semibold text-primary-700 bg-primary-50 px-2 py-0.5 rounded border border-primary-200">
+                F&O Enabled
               </span>
-              <DemoBadge size="xs" />
-              {stock?.hasOptions && (
-                <span className="text-[10px] font-semibold text-primary-700 bg-primary-50 px-2 py-0.5 rounded border border-primary-200">
-                  F&O Enabled
-                </span>
-              )}
-            </div>
-            <h1 className="text-2xl md:text-3xl font-extrabold text-textPrimary tracking-tight">
-              {instrument.name}
-            </h1>
-            <p className="text-xs text-textMuted">
-              {stock?.ticker || mf?.amc || bond?.issuer || etf?.ticker || ipo?.company}
-              {instrument.isin ? ` · ${instrument.isin}` : ''}
-            </p>
+            )}
           </div>
 
-          <div className="flex items-center gap-2">
-            <button
-              onClick={handleToggleWatchlist}
-              className={`px-3 py-2 rounded-xl text-xs font-semibold flex items-center gap-1.5 border transition-all ${
-                isWatchlisted
-                  ? 'bg-primary-50 border-primary-300 text-primary-700'
-                  : 'bg-white border-border text-textSecondary hover:bg-bgSurface'
-              }`}
-            >
-              <Bookmark size={16} className={isWatchlisted ? 'fill-primary-600 text-primary-600' : ''} />
-              <span>{isWatchlisted ? 'In Watchlist' : 'Add to Watchlist'}</span>
-            </button>
-          </div>
+          <button
+            type="button"
+            onClick={handleToggleWatchlist}
+            className={`shrink-0 px-3 py-1.5 rounded-full text-xs font-semibold inline-flex items-center gap-1.5 border transition-all whitespace-nowrap cursor-pointer shadow-2xs ${
+              isWatchlisted
+                ? 'bg-primary-50 border-primary-300 text-primary-700'
+                : 'bg-white border-border text-textSecondary hover:text-textPrimary hover:bg-bgSurface'
+            }`}
+            aria-label={isWatchlisted ? 'Remove from Watchlist' : 'Add to Watchlist'}
+          >
+            <Bookmark
+              size={14}
+              className={`shrink-0 ${isWatchlisted ? 'fill-primary-600 text-primary-600' : ''}`}
+            />
+            <span>{isWatchlisted ? 'In Watchlist' : 'Add to Watchlist'}</span>
+          </button>
+        </div>
+
+        {/* Title and Subtitle */}
+        <div className="space-y-1">
+          <h1 className="text-xl sm:text-2xl md:text-3xl font-extrabold text-textPrimary tracking-tight">
+            {instrument.name}
+          </h1>
+          <p className="text-xs text-textMuted">
+            {stock?.ticker || mf?.amc || bond?.issuer || etf?.ticker || ipo?.company}
+            {instrument.isin ? ` · ${instrument.isin}` : ''}
+          </p>
         </div>
 
         {/* Pricing & Key Metrics Row */}
@@ -396,35 +402,43 @@ export const InstrumentDetail: React.FC = () => {
             {/* STOCK OVERVIEW */}
             {stock && (
               <div className="space-y-6">
-                <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-                  <div className="p-3.5 bg-white border border-border rounded-xl">
-                    <span className="text-[11px] text-textMuted block">Market Cap Category</span>
-                    <span className="text-sm font-bold text-textPrimary">
+                <div className="space-y-3">
+                  <div className="p-4 bg-white border border-border rounded-xl">
+                    <div className="flex items-center justify-between">
+                      <span className="text-xs text-textMuted font-medium">Market Cap Category</span>
+                      <span className="text-[11px] text-textMuted font-medium">Sector: {stock.sector}</span>
+                    </div>
+                    <span className="text-base font-bold text-textPrimary mt-1 block">
                       {stock.mcapBucket} Cap
                     </span>
-                    <span className="text-[10px] text-textMuted block">Sector: {stock.sector}</span>
                   </div>
 
-                  <div className="p-3.5 bg-white border border-border rounded-xl">
-                    <span className="text-[11px] text-textMuted block">P/E Ratio</span>
-                    <span className="text-sm font-bold text-textPrimary tabular-nums">
+                  <div className="p-4 bg-white border border-border rounded-xl">
+                    <div className="flex items-center justify-between">
+                      <span className="text-xs text-textMuted font-medium">P/E Ratio</span>
+                      {stock.ratios.pe === null && (
+                        <span className="text-[11px] text-loss font-semibold">Loss-making</span>
+                      )}
+                    </div>
+                    <span className="text-base font-bold text-textPrimary mt-1 block tabular-nums">
                       {stock.ratios.pe ? stock.ratios.pe.toFixed(2) : 'Not meaningful'}
                     </span>
-                    {stock.ratios.pe === null && (
-                      <span className="text-[10px] text-loss font-semibold block">Loss-making</span>
-                    )}
                   </div>
 
-                  <div className="p-3.5 bg-white border border-border rounded-xl">
-                    <span className="text-[11px] text-textMuted block">Return on Equity (ROE)</span>
-                    <span className="text-xs font-bold text-textPrimary tabular-nums block">
+                  <div className="p-4 bg-white border border-border rounded-xl">
+                    <div className="flex items-center justify-between">
+                      <span className="text-xs text-textMuted font-medium">Return on Equity (ROE)</span>
+                    </div>
+                    <span className="text-base font-bold text-textPrimary mt-1 block tabular-nums">
                       {stock.ratios.roe ? `${stock.ratios.roe.toFixed(1)}%` : 'Not available'}
                     </span>
                   </div>
 
-                  <div className="p-3.5 bg-white border border-border rounded-xl">
-                    <span className="text-[11px] text-textMuted block">Dividend Yield</span>
-                    <span className="text-sm font-bold text-textPrimary tabular-nums">
+                  <div className="p-4 bg-white border border-border rounded-xl">
+                    <div className="flex items-center justify-between">
+                      <span className="text-xs text-textMuted font-medium">Dividend Yield</span>
+                    </div>
+                    <span className="text-base font-bold text-textPrimary mt-1 block tabular-nums">
                       {stock.ratios.divYield !== null && stock.ratios.divYield !== undefined
                         ? `${stock.ratios.divYield}%`
                         : 'No dividend'}
@@ -446,7 +460,7 @@ export const InstrumentDetail: React.FC = () => {
             {/* MUTUAL FUND OVERVIEW */}
             {mf && (
               <div className="space-y-6">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="space-y-4">
                   {/* Riskometer */}
                   <div className="p-5 bg-white border border-border rounded-xl space-y-3">
                     <span className="text-xs font-bold text-textMuted uppercase tracking-wider">
@@ -459,25 +473,23 @@ export const InstrumentDetail: React.FC = () => {
                   </div>
 
                   {/* Expense Ratio Card */}
-                  <div className="p-5 bg-white border border-border rounded-xl space-y-2 flex flex-col justify-between">
-                    <div>
-                      <span className="text-xs font-bold text-textMuted uppercase tracking-wider">
-                        Expense Ratio ({mf.plan} Plan)
-                      </span>
-                      <span className="text-2xl font-bold text-textPrimary block mt-1">
-                        {mf.expenseRatio.toFixed(2)}%
-                      </span>
-                      <p className="text-xs text-textSecondary mt-1">
-                        On ₹10,000 invested, approximately ₹{(mf.expenseRatio * 100).toFixed(0)} is deducted annually for fund management.
-                      </p>
-                    </div>
-                    <span className="text-[10px] text-textMuted">
+                  <div className="p-5 bg-white border border-border rounded-xl space-y-2">
+                    <span className="text-xs font-bold text-textMuted uppercase tracking-wider">
+                      Expense Ratio ({mf.plan} Plan)
+                    </span>
+                    <span className="text-2xl font-bold text-textPrimary block mt-1">
+                      {mf.expenseRatio.toFixed(2)}%
+                    </span>
+                    <p className="text-xs text-textSecondary mt-1">
+                      On ₹10,000 invested, approximately ₹{(mf.expenseRatio * 100).toFixed(0)} is deducted annually for fund management.
+                    </p>
+                    <span className="text-[10px] text-textMuted block pt-1">
                       Category: {mf.category}
                     </span>
                   </div>
                 </div>
 
-                {/* Trailing Returns Table */}
+                {/* Trailing Returns Table - Stacked */}
                 <div className="p-5 bg-white border border-border rounded-xl space-y-3">
                   <div className="flex items-center justify-between">
                     <h3 className="text-sm font-bold text-textPrimary">
@@ -486,11 +498,11 @@ export const InstrumentDetail: React.FC = () => {
                     <span className="text-[11px] text-textMuted">Compounded Annual Growth</span>
                   </div>
 
-                  <div className="grid grid-cols-3 gap-3 text-center">
+                  <div className="space-y-2.5">
                     {mf.returns.map((ret) => (
-                      <div key={ret.period} className="p-3 bg-bgSurface rounded-lg border border-border">
-                        <span className="text-xs text-textMuted block">{ret.period} Return</span>
-                        <span className="text-base font-bold text-primary-600 block mt-0.5">
+                      <div key={ret.period} className="p-3.5 bg-bgSurface rounded-xl border border-border flex items-center justify-between">
+                        <span className="text-xs font-semibold text-textMuted">{ret.period} Return</span>
+                        <span className="text-base font-bold text-primary-600 tabular-nums">
                           {ret.pct !== null ? `+${ret.pct.toFixed(2)}%` : 'N/A'}
                         </span>
                       </div>
@@ -507,7 +519,7 @@ export const InstrumentDetail: React.FC = () => {
                     </h3>
                   </div>
 
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                  <div className="space-y-3">
                     <div className="space-y-1">
                       <div className="flex justify-between text-xs font-semibold">
                         <span>Monthly SIP</span>
@@ -557,22 +569,22 @@ export const InstrumentDetail: React.FC = () => {
                     </div>
                   </div>
 
-                  <div className="grid grid-cols-3 gap-3 p-3 bg-white rounded-lg border border-primary-100 text-center">
-                    <div>
-                      <span className="text-[10px] text-textMuted block">Total Invested</span>
-                      <span className="text-xs sm:text-sm font-bold text-textPrimary">
+                  <div className="space-y-2 p-3.5 bg-white rounded-xl border border-primary-100">
+                    <div className="flex items-center justify-between py-1 border-b border-primary-50">
+                      <span className="text-xs text-textMuted">Total Invested</span>
+                      <span className="text-sm font-semibold text-textPrimary tabular-nums">
                         {formatINR(sipResult.totalInvested)}
                       </span>
                     </div>
-                    <div>
-                      <span className="text-[10px] text-textMuted block">Est. Growth</span>
-                      <span className="text-xs sm:text-sm font-bold text-primary-600">
+                    <div className="flex items-center justify-between py-1 border-b border-primary-50">
+                      <span className="text-xs text-textMuted">Est. Growth</span>
+                      <span className="text-sm font-semibold text-primary-600 tabular-nums">
                         {formatINR(sipResult.estimatedReturns)}
                       </span>
                     </div>
-                    <div>
-                      <span className="text-[10px] text-textMuted block">Future Value</span>
-                      <span className="text-xs sm:text-sm font-extrabold text-primary-700">
+                    <div className="flex items-center justify-between py-1">
+                      <span className="text-xs text-textMuted font-semibold">Future Value</span>
+                      <span className="text-base font-bold text-primary-700 tabular-nums">
                         {formatINR(sipResult.futureValue)}
                       </span>
                     </div>
@@ -584,63 +596,73 @@ export const InstrumentDetail: React.FC = () => {
             {/* BOND OVERVIEW */}
             {bond && (
               <div className="space-y-6">
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                {/* Bond Specifications - Stacked */}
+                <div className="space-y-3">
                   <div className="p-4 bg-white border border-border rounded-xl">
-                    <span className="text-xs text-textMuted block">Credit Rating</span>
+                    <div className="flex items-center justify-between">
+                      <span className="text-xs text-textMuted font-medium">Credit Rating</span>
+                      <span className="text-[11px] text-textMuted">
+                        {bond.ratingAgency ? `Rated by ${bond.ratingAgency}` : 'Higher credit risk'}
+                      </span>
+                    </div>
                     <span className="text-base font-bold text-textPrimary mt-1 block">
                       {bond.rating || 'Unrated'}
                     </span>
-                    <span className="text-[11px] text-textMuted">
-                      {bond.ratingAgency ? `Rated by ${bond.ratingAgency}` : 'Higher credit risk'}
-                    </span>
                   </div>
 
                   <div className="p-4 bg-white border border-border rounded-xl">
-                    <span className="text-xs text-textMuted block">Maturity Date</span>
-                    <span className="text-base font-bold text-textPrimary mt-1 block">
+                    <div className="flex items-center justify-between">
+                      <span className="text-xs text-textMuted font-medium">Maturity Date</span>
+                      <span className="text-[11px] text-textMuted">Face Value: ₹{bond.faceValue.toLocaleString('en-IN')}</span>
+                    </div>
+                    <span className="text-base font-bold text-textPrimary mt-1 block tabular-nums">
                       {bond.maturity}
                     </span>
-                    <span className="text-[11px] text-textMuted">Face Value: ₹{bond.faceValue}</span>
                   </div>
 
                   <div className="p-4 bg-white border border-border rounded-xl">
-                    <span className="text-xs text-textMuted block">Bond Category</span>
+                    <div className="flex items-center justify-between">
+                      <span className="text-xs text-textMuted font-medium">Bond Category</span>
+                      <span className="text-[11px] text-textMuted">Direct to linked Demat</span>
+                    </div>
                     <span className="text-base font-bold text-textPrimary mt-1 block">
                       {bond.type}
                     </span>
-                    <span className="text-[11px] text-textMuted">Direct to linked Demat</span>
                   </div>
                 </div>
 
-                {/* 3 Risk Blocks */}
+                {/* Key Risk Pillars - Stacked One Below Another */}
                 <div className="space-y-3">
                   <h3 className="text-sm font-bold text-textPrimary">
                     Key Risk Pillars for this Bond
                   </h3>
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
-                    <div className="p-4 bg-white border border-border rounded-xl space-y-1">
-                      <span className="text-xs font-bold text-textPrimary flex items-center gap-1.5">
-                        <ShieldAlert size={14} className="text-blue-600" /> Credit Risk
+                  <div className="space-y-3">
+                    <div className="p-4 bg-white border border-border rounded-xl space-y-1.5">
+                      <span className="text-xs sm:text-sm font-bold text-textPrimary flex items-center gap-2">
+                        <ShieldAlert size={16} className="text-blue-600 shrink-0" />
+                        <span>Credit Risk</span>
                       </span>
-                      <p className="text-xs text-textSecondary">
+                      <p className="text-xs text-textSecondary leading-relaxed">
                         {bond.creditRiskNote}
                       </p>
                     </div>
 
-                    <div className="p-4 bg-white border border-border rounded-xl space-y-1">
-                      <span className="text-xs font-bold text-textPrimary flex items-center gap-1.5">
-                        <Percent size={14} className="text-amber-600" /> Interest Rate Risk
+                    <div className="p-4 bg-white border border-border rounded-xl space-y-1.5">
+                      <span className="text-xs sm:text-sm font-bold text-textPrimary flex items-center gap-2">
+                        <Percent size={16} className="text-amber-600 shrink-0" />
+                        <span>Interest Rate Risk</span>
                       </span>
-                      <p className="text-xs text-textSecondary">
+                      <p className="text-xs text-textSecondary leading-relaxed">
                         {bond.rateRiskNote}
                       </p>
                     </div>
 
-                    <div className="p-4 bg-white border border-border rounded-xl space-y-1">
-                      <span className="text-xs font-bold text-textPrimary flex items-center gap-1.5">
-                        <Layers size={14} className="text-purple-600" /> Liquidity Risk
+                    <div className="p-4 bg-white border border-border rounded-xl space-y-1.5">
+                      <span className="text-xs sm:text-sm font-bold text-textPrimary flex items-center gap-2">
+                        <Layers size={16} className="text-purple-600 shrink-0" />
+                        <span>Liquidity Risk</span>
                       </span>
-                      <p className="text-xs text-textSecondary">
+                      <p className="text-xs text-textSecondary leading-relaxed">
                         {bond.liquidityNote}
                       </p>
                     </div>
@@ -651,18 +673,18 @@ export const InstrumentDetail: React.FC = () => {
 
             {/* ETF OVERVIEW */}
             {etf && (
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div className="space-y-3">
                 <div className="p-4 bg-white border border-border rounded-xl">
-                  <span className="text-xs text-textMuted block">Tracking Index</span>
+                  <span className="text-xs text-textMuted font-medium block">Tracking Index</span>
                   <span className="text-base font-bold text-textPrimary mt-1 block">{etf.tracks}</span>
                 </div>
                 <div className="p-4 bg-white border border-border rounded-xl">
-                  <span className="text-xs text-textMuted block">Expense Ratio</span>
-                  <span className="text-base font-bold text-textPrimary mt-1 block">{etf.expenseRatio.toFixed(2)}%</span>
+                  <span className="text-xs text-textMuted font-medium block">Expense Ratio</span>
+                  <span className="text-base font-bold text-textPrimary mt-1 block tabular-nums">{etf.expenseRatio.toFixed(2)}%</span>
                 </div>
                 <div className="p-4 bg-white border border-border rounded-xl">
-                  <span className="text-xs text-textMuted block">Tracking Note</span>
-                  <span className="text-xs font-semibold text-textPrimary mt-1 block">{etf.trackingNote}</span>
+                  <span className="text-xs text-textMuted font-medium block">Tracking Note</span>
+                  <span className="text-sm font-semibold text-textPrimary mt-1 block leading-relaxed">{etf.trackingNote}</span>
                 </div>
               </div>
             )}
@@ -670,18 +692,18 @@ export const InstrumentDetail: React.FC = () => {
             {/* IPO OVERVIEW */}
             {ipo && (
               <div className="space-y-4">
-                <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
-                  <div className="p-3.5 bg-white border border-border rounded-xl">
-                    <span className="text-xs text-textMuted block">Issue Open</span>
-                    <span className="text-xs font-bold text-textPrimary mt-1 block">{ipo.opens}</span>
+                <div className="space-y-3">
+                  <div className="p-4 bg-white border border-border rounded-xl">
+                    <span className="text-xs text-textMuted font-medium block">Issue Open</span>
+                    <span className="text-base font-bold text-textPrimary mt-1 block">{ipo.opens}</span>
                   </div>
-                  <div className="p-3.5 bg-white border border-border rounded-xl">
-                    <span className="text-xs text-textMuted block">Issue Close</span>
-                    <span className="text-xs font-bold text-textPrimary mt-1 block">{ipo.closes}</span>
+                  <div className="p-4 bg-white border border-border rounded-xl">
+                    <span className="text-xs text-textMuted font-medium block">Issue Close</span>
+                    <span className="text-base font-bold text-textPrimary mt-1 block">{ipo.closes}</span>
                   </div>
-                  <div className="p-3.5 bg-white border border-border rounded-xl">
-                    <span className="text-xs text-textMuted block">Lot Size</span>
-                    <span className="text-xs font-bold text-textPrimary mt-1 block">{ipo.lotSize} shares</span>
+                  <div className="p-4 bg-white border border-border rounded-xl">
+                    <span className="text-xs text-textMuted font-medium block">Lot Size</span>
+                    <span className="text-base font-bold text-textPrimary mt-1 block">{ipo.lotSize} shares</span>
                   </div>
                 </div>
 
@@ -758,80 +780,77 @@ export const InstrumentDetail: React.FC = () => {
         )}
       </div>
 
-      {/* 5. Sticky Bottom Action Bar (Simulated Trading CTAs) */}
-      <div className="sticky bottom-0 inset-x-0 bg-white/95 backdrop-blur-md border-t border-border p-3 z-30 shadow-md -mx-3.5 -mb-12 px-3.5 pt-2.5 pb-3">
-        <div className="flex items-center justify-between gap-3">
-
-          <div className="flex items-center gap-3 w-full sm:w-auto justify-end">
-            {stock && (
-              <>
-                <Button
-                  variant="outline"
-                  onClick={() => navigate(`/order/${stock.id}?side=SELL`)}
-                  className="flex-1 sm:flex-initial"
-                >
-                  Sell (Simulated)
-                </Button>
-                <Button
-                  variant="primary"
-                  onClick={() => navigate(`/order/${stock.id}?side=BUY`)}
-                  className="flex-1 sm:flex-initial"
-                >
-                  Buy (Simulated)
-                </Button>
-              </>
-            )}
-
-            {mf && (
-              <>
-                <Button
-                  variant="outline"
-                  onClick={() => navigate(`/order/${mf.id}?side=BUY&product=MF&mode=ONETIME`)}
-                  className="flex-1 sm:flex-initial"
-                >
-                  One-time Lumpsum
-                </Button>
-                <Button
-                  variant="primary"
-                  onClick={() => navigate(`/order/${mf.id}?side=BUY&product=MF&mode=SIP`)}
-                  className="flex-1 sm:flex-initial"
-                >
-                  Start SIP (Simulated)
-                </Button>
-              </>
-            )}
-
-            {bond && (
+      {/* 5. Bottom Action Bar (Trading CTAs - In-flow at end of page) */}
+      <div className="pt-4 border-t border-border flex items-center justify-end">
+        <div className="flex items-center gap-3 w-full sm:w-auto justify-end">
+          {stock && (
+            <>
+              <Button
+                variant="outline"
+                onClick={() => navigate(`/order/${stock.id}?side=SELL`)}
+                className="flex-1 sm:flex-initial"
+              >
+                Sell
+              </Button>
               <Button
                 variant="primary"
-                onClick={() => navigate(`/order/${bond.id}?side=BUY&product=BOND`)}
-                className="w-full sm:w-auto"
+                onClick={() => navigate(`/order/${stock.id}?side=BUY`)}
+                className="flex-1 sm:flex-initial"
               >
-                Invest in Bond (Simulated)
+                Buy
               </Button>
-            )}
+            </>
+          )}
 
-            {etf && (
+          {mf && (
+            <>
+              <Button
+                variant="outline"
+                onClick={() => navigate(`/order/${mf.id}?side=BUY&product=MF&mode=ONETIME`)}
+                className="flex-1 sm:flex-initial"
+              >
+                One-time Lumpsum
+              </Button>
               <Button
                 variant="primary"
-                onClick={() => navigate(`/order/${etf.id}?side=BUY&product=DELIVERY`)}
-                className="w-full sm:w-auto"
+                onClick={() => navigate(`/order/${mf.id}?side=BUY&product=MF&mode=SIP`)}
+                className="flex-1 sm:flex-initial"
               >
-                Buy ETF (Simulated)
+                Start SIP
               </Button>
-            )}
+            </>
+          )}
 
-            {ipo && (
-              <Button
-                variant="primary"
-                disabled={ipo.status === 'Closed'}
-                onClick={() => navigate(`/order/${ipo.id}?side=BUY&product=IPO`)}
-                className="w-full sm:w-auto"
-              >
-                {ipo.status === 'Closed' ? 'Issue Closed' : 'Apply for IPO (Simulated)'}
-              </Button>
-            )}
-          </div>
+          {bond && (
+            <Button
+              variant="primary"
+              onClick={() => navigate(`/order/${bond.id}?side=BUY&product=BOND`)}
+              className="w-full sm:w-auto"
+            >
+              Invest in Bond
+            </Button>
+          )}
+
+          {etf && (
+            <Button
+              variant="primary"
+              onClick={() => navigate(`/order/${etf.id}?side=BUY&product=DELIVERY`)}
+              className="w-full sm:w-auto"
+            >
+              Buy ETF
+            </Button>
+          )}
+
+          {ipo && (
+            <Button
+              variant="primary"
+              disabled={ipo.status === 'Closed'}
+              onClick={() => navigate(`/order/${ipo.id}?side=BUY&product=IPO`)}
+              className="w-full sm:w-auto"
+            >
+              {ipo.status === 'Closed' ? 'Issue Closed' : 'Apply for IPO'}
+            </Button>
+          )}
         </div>
       </div>
     </div>

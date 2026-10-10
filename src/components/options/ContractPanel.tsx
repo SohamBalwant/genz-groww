@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import type { OptionContract } from '../../types';
 import { Sheet } from '../ui/Sheet';
-import { Button } from '../ui/Button';
 import { DemoBadge } from '../ui/DemoBadge';
 import { PayoffChart } from '../charts/PayoffChart';
 import { GreeksExplorationModal } from './GreeksExplorationModal';
@@ -112,41 +111,51 @@ export const ContractPanel: React.FC<ContractPanelProps> = ({
           {/* TAB 1: OVERVIEW */}
           {activeTab === 'overview' && (
             <div className="space-y-4">
-              {/* Top Summary Row */}
-              <div className="flex items-start justify-between p-3.5 bg-bgSurface rounded-2xl border border-border">
-                <div>
-                  <span className="text-[11px] text-textMuted uppercase tracking-wider block font-semibold">
-                    Option Premium (LTP)
-                  </span>
-                  <div className="flex items-baseline gap-2">
-                    <span className="text-2xl font-black text-textPrimary tabular-nums">
-                      ₹{contract.ltp.toFixed(2)}
+              {/* Top Summary Card */}
+              <div className="p-3.5 bg-white rounded-2xl border border-border shadow-2xs space-y-3">
+                {/* Upper tier: Premium & Moneyness */}
+                <div className="flex items-start justify-between gap-3">
+                  <div className="min-w-0">
+                    <span className="text-[11px] text-textMuted uppercase tracking-wider block font-bold">
+                      Option Premium (LTP)
                     </span>
-                    <span className="text-xs text-textMuted">per share</span>
+                    <div className="flex items-baseline gap-2 mt-1 flex-wrap">
+                      <span className="text-2xl sm:text-3xl font-black text-textPrimary tabular-nums tracking-tight">
+                        ₹{contract.ltp.toFixed(2)}
+                      </span>
+                      <span
+                        className={`text-xs font-bold ${
+                          contract.changePct >= 0 ? 'text-gain' : 'text-loss'
+                        }`}
+                      >
+                        {contract.changePct >= 0 ? '+' : ''}
+                        {contract.changePct}%
+                      </span>
+                      <span className="text-xs text-textMuted font-medium">/ share</span>
+                    </div>
+                  </div>
+
+                  <div className="flex flex-col items-end shrink-0 text-right">
                     <span
-                      className={`text-xs font-bold ${
-                        contract.changePct >= 0 ? 'text-gain' : 'text-loss'
-                      }`}
+                      className={`px-2.5 py-1 rounded-full text-xs font-bold border whitespace-nowrap shadow-2xs ${getMoneynessBadgeClass(
+                        moneyness
+                      )}`}
                     >
-                      ({contract.changePct >= 0 ? '+' : ''}
-                      {contract.changePct}%)
+                      {getMoneynessLabel(moneyness)}
+                    </span>
+                    <span className="text-[11px] text-textMuted font-medium mt-1 tabular-nums whitespace-nowrap">
+                      Spot: ₹{spot.toLocaleString('en-IN')}
                     </span>
                   </div>
-                  <span className="text-xs text-textSecondary mt-1 block">
-                    1 Lot = {lotSize} shares (Total Outlay: <strong>{formatINR(totalPremium)}</strong>)
-                  </span>
                 </div>
 
-                <div className="text-right">
-                  <span
-                    className={`inline-block px-2.5 py-1 rounded-full text-xs border ${getMoneynessBadgeClass(
-                      moneyness
-                    )}`}
-                  >
-                    {getMoneynessLabel(moneyness)}
+                {/* Lower tier: Lot Size & Total Outlay */}
+                <div className="pt-2.5 border-t border-slate-100 flex items-center justify-between text-xs text-textSecondary">
+                  <span className="text-textMuted font-medium">
+                    1 Lot = <strong className="text-textPrimary font-bold">{lotSize} shares</strong>
                   </span>
-                  <span className="text-[11px] text-textMuted block mt-1 font-medium">
-                    Spot: ₹{spot.toLocaleString('en-IN')}
+                  <span className="text-textMuted font-medium">
+                    Total Outlay: <strong className="text-textPrimary font-black tabular-nums">{formatINR(totalPremium)}</strong>
                   </span>
                 </div>
               </div>
@@ -256,29 +265,6 @@ export const ContractPanel: React.FC<ContractPanelProps> = ({
                   maxLoss={maxLoss}
                   type={contract.type}
                 />
-              </div>
-
-              {/* Primary Action Buttons */}
-              <div className="flex items-center gap-2 pt-2 border-t border-border">
-                <Button
-                  variant="outline"
-                  size="sm"
-                  className="flex-1 text-xs"
-                  onClick={() => setActiveTab('scenarios')}
-                >
-                  <Compass size={14} />
-                  <span>Explore Scenarios</span>
-                </Button>
-
-                <Button
-                  variant="primary"
-                  size="sm"
-                  className="flex-1 text-xs font-bold"
-                  onClick={() => setActiveTab('simulator')}
-                >
-                  <BarChart2 size={14} />
-                  <span>Analyze in Simulator</span>
-                </Button>
               </div>
             </div>
           )}

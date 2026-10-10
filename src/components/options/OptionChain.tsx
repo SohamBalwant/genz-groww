@@ -85,22 +85,21 @@ export const OptionChain: React.FC<OptionChainProps> = ({
     <div className="space-y-3.5 select-none">
 
       {/* 1. Chain Controls Bar */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-3 bg-white rounded-2xl border border-border shadow-2xs">
-        {/* Metric View Segmented Control */}
-        <div className="flex items-center gap-1 bg-bgSurface p-1 rounded-xl border border-border overflow-x-auto no-scrollbar">
+      <div className="flex flex-col gap-2.5 p-3 bg-white rounded-2xl border border-border shadow-2xs">
+        {/* Line 1: Primary Metric Views (Price & 1D, Open Interest, Greeks) */}
+        <div className="grid grid-cols-3 gap-1 bg-bgSurface p-1 rounded-xl border border-border w-full">
           {(
             [
               { id: 'price', label: 'Price & 1D' },
               { id: 'oi', label: 'Open Interest' },
               { id: 'greeks', label: 'Greeks (Δ,Γ,Θ,ν)' },
-              { id: 'iv', label: 'Implied Vol (IV)' },
             ] as const
           ).map((view) => (
             <button
               key={view.id}
               type="button"
               onClick={() => setMetricView(view.id)}
-              className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all whitespace-nowrap cursor-pointer ${
+              className={`px-2 sm:px-3 py-1.5 rounded-lg text-xs font-bold transition-all whitespace-nowrap cursor-pointer text-center justify-center flex items-center ${
                 metricView === view.id
                   ? 'bg-primary-600 text-white shadow-2xs'
                   : 'text-textSecondary hover:text-textPrimary'
@@ -111,53 +110,42 @@ export const OptionChain: React.FC<OptionChainProps> = ({
           ))}
         </div>
 
-        {/* Action Controls: Jump to ATM + Strike Filter */}
-        <div className="flex items-center justify-between sm:justify-end gap-2 text-xs">
+        {/* Line 2: Options on the right of Greeks (Implied Vol, Jump to ATM, Strike Filter) */}
+        <div className="flex items-center gap-2 text-xs flex-wrap">
+          <button
+            type="button"
+            onClick={() => setMetricView('iv')}
+            className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl border text-xs font-bold transition-all cursor-pointer whitespace-nowrap shrink-0 ${
+              metricView === 'iv'
+                ? 'bg-primary-600 text-white border-primary-600 shadow-2xs'
+                : 'bg-bgSurface hover:bg-slate-100 text-textSecondary border-border'
+            }`}
+          >
+            <span>Implied Vol (IV)</span>
+          </button>
+
           <button
             type="button"
             onClick={handleJumpToAtm}
-            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl border border-primary-200 bg-primary-50 hover:bg-primary-100/70 text-primary-800 text-xs font-bold transition-colors cursor-pointer"
+            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl border border-primary-200 bg-primary-50 hover:bg-primary-100/70 text-primary-800 text-xs font-bold transition-colors cursor-pointer whitespace-nowrap shrink-0"
             title="Center table around At-The-Money strike"
           >
-            <LocateFixed size={13} className="text-primary-700" />
-            <span>Jump to ATM (₹{atmStrike})</span>
+            <LocateFixed size={13} className="text-primary-700 shrink-0" />
+            <span className="whitespace-nowrap">Jump to ATM (₹{atmStrike})</span>
           </button>
 
           <button
             type="button"
             onClick={() => setStrikeRange(strikeRange === 'focus' ? 'all' : 'focus')}
-            className="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl border border-border bg-white hover:bg-bgSurface text-textSecondary text-xs font-medium transition-colors cursor-pointer"
+            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl border border-border bg-white hover:bg-bgSurface text-textSecondary text-xs font-medium transition-colors cursor-pointer whitespace-nowrap shrink-0"
           >
-            <Filter size={13} />
-            <span>{strikeRange === 'focus' ? 'Show All Strikes' : '±6 ATM Focus'}</span>
+            <Filter size={13} className="shrink-0" />
+            <span className="whitespace-nowrap">{strikeRange === 'focus' ? 'Show All Strikes' : '±6 ATM Focus'}</span>
           </button>
         </div>
       </div>
 
-      {/* 2. Moneyness Legend & ATM Status Indicator */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 px-1 text-[11px] text-textMuted">
-        <div className="flex items-center gap-3">
-          <span className="flex items-center gap-1">
-            <span className="w-2.5 h-2.5 rounded-xs bg-amber-100 border border-amber-300" />
-            <span>ITM (In the Money)</span>
-          </span>
-          <span className="flex items-center gap-1">
-            <span className="w-2.5 h-2.5 rounded-xs bg-primary-200 border border-primary-400" />
-            <span className="font-semibold text-primary-900">ATM Strike</span>
-          </span>
-          <span className="flex items-center gap-1">
-            <span className="w-2.5 h-2.5 rounded-xs bg-white border border-border" />
-            <span>OTM (Out of the Money)</span>
-          </span>
-        </div>
-
-        <div className="flex items-center gap-2">
-          <span>Tap any Call or Put to view Greeks & Simulator</span>
-          <span className="font-semibold text-textSecondary">Lot: {chain.lotSize}</span>
-        </div>
-      </div>
-
-      {/* 3. The Responsive Option Chain Table with Sticky Strike */}
+      {/* 2. The Responsive Option Chain Table with Sticky Strike */}
       <div
         ref={tableContainerRef}
         className="w-full overflow-x-auto rounded-2xl border border-border bg-white shadow-2xs scrollbar-thin max-h-[650px] overflow-y-auto"
@@ -498,6 +486,36 @@ export const OptionChain: React.FC<OptionChainProps> = ({
             })}
           </tbody>
         </table>
+      </div>
+
+      {/* 3. Moneyness Legend & ATM Status Indicator (Below Table) */}
+      <div className="flex flex-col gap-2 p-3 bg-white rounded-xl border border-border shadow-2xs text-xs text-textSecondary">
+        <div className="flex items-center justify-between gap-3 flex-wrap">
+          <div className="flex items-center gap-3.5 flex-wrap">
+            <span className="flex items-center gap-1.5 whitespace-nowrap">
+              <span className="w-3 h-3 rounded-xs bg-amber-100 border border-amber-300 shrink-0" />
+              <span className="font-medium text-textPrimary">ITM (In the Money)</span>
+            </span>
+            <span className="flex items-center gap-1.5 whitespace-nowrap">
+              <span className="w-3 h-3 rounded-xs bg-primary-200 border border-primary-400 shrink-0" />
+              <span className="font-semibold text-primary-900">ATM Strike</span>
+            </span>
+            <span className="flex items-center gap-1.5 whitespace-nowrap">
+              <span className="w-3 h-3 rounded-xs bg-white border border-border shrink-0" />
+              <span className="font-medium text-textPrimary">OTM (Out of the Money)</span>
+            </span>
+          </div>
+
+          <span className="font-bold text-xs text-textPrimary bg-bgSurface px-2 py-0.5 rounded border border-border whitespace-nowrap self-start">
+            Lot: {chain.lotSize}
+          </span>
+        </div>
+
+        <div className="text-left pt-1 border-t border-slate-100">
+          <span className="text-[11px] text-textMuted block text-left">
+            Tap any Call or Put to view Greeks & Simulator
+          </span>
+        </div>
       </div>
 
       {/* Contract Detail Bottom Sheet Panel */}

@@ -199,6 +199,44 @@ describe('Contract Panel, Scenario Explorer & Simulator (P1 & P2)', () => {
     expect(screen.getByRole('button', { name: /reset scenario/i })).toBeInTheDocument();
   });
 
+  it('supports right and left directional navigation in Market Scenarios swiping carousel', async () => {
+    renderOptionsLab();
+
+    // Tap contract in table
+    const table = screen.getByRole('table');
+    const rows = within(table).getAllByRole('row');
+    const firstOptionRow = rows[2];
+    const cells = within(firstOptionRow).getAllByRole('cell');
+    fireEvent.click(cells[0]);
+
+    // Click "Explore Scenarios" button
+    const scenarioTabs = await screen.findAllByRole('button', { name: /explore scenarios/i });
+    fireEvent.click(scenarioTabs[0]);
+
+    // Initial state: right arrow visible, left arrow hidden
+    expect(screen.queryByRole('button', { name: /previous market scenario/i })).not.toBeInTheDocument();
+    const nextBtn = await screen.findByRole('button', { name: /next market scenario/i });
+    expect(nextBtn).toBeInTheDocument();
+
+    // Click next -> now on slide 2, both left and right visible
+    fireEvent.click(nextBtn);
+    expect(screen.getByRole('button', { name: /previous market scenario/i })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /next market scenario/i })).toBeInTheDocument();
+
+    // Click next 3 more times to reach the last scenario (slide 5)
+    fireEvent.click(screen.getByRole('button', { name: /next market scenario/i }));
+    fireEvent.click(screen.getByRole('button', { name: /next market scenario/i }));
+    fireEvent.click(screen.getByRole('button', { name: /next market scenario/i }));
+
+    // On last slide: right arrow hidden, left arrow visible
+    expect(screen.queryByRole('button', { name: /next market scenario/i })).not.toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /previous market scenario/i })).toBeInTheDocument();
+
+    // Click previous arrow -> returns to slide 4, right arrow reappears
+    fireEvent.click(screen.getByRole('button', { name: /previous market scenario/i }));
+    expect(screen.getByRole('button', { name: /next market scenario/i })).toBeInTheDocument();
+  });
+
   it('navigates to Paper Simulator, allows lot adjustment and saves simulated trade', async () => {
     renderOptionsLab();
 
